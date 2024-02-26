@@ -147,7 +147,7 @@ dmypy.json
 **pip.conf
 **test.txt
 *swp
-# **motoko.py
+**motoko.py
 
 
 # pycharm
