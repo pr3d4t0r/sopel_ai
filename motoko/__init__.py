@@ -6,6 +6,8 @@
 
 
 from ollama import Client as OllamaClient
+from perplexipy import PerplexityClient
+from perplexipy import PERPLEXITY_API_KEY
 from sopel import config
 from sopel import formatting
 from sopel import plugin
@@ -17,7 +19,7 @@ import sys
 import ollama
 
 
-__VERSION__ = '1.0.2'
+__VERSION__ = '1.0.3'
 
 
 # +++ constants +++
@@ -30,6 +32,11 @@ GITHUB_NEW_ISSUE_URL = 'https://github.com/pr3d4t0r/m0toko/issues/new'
 LOGGER = logging.getLogger(__name__)
 MAX_RESPONSE_LENGTH = 448
 PLUGIN_OUTPUT_PREFIX = '[m0toko] '
+
+
+# +++ globals +++
+
+_client = None
 
 
 # +++ implementation +++
@@ -61,6 +68,28 @@ def shutdown(bot):
     pass
 
 
+def _runQueryOllama(query: str, serviceHost: str, model: str = DEFAULT_LLM) -> str:
+    """
+    Experimental.
+    """
+    queryData = {
+        'role': 'user',
+        'content': 'Brief answer in %s characters or less to: "%s". Include one URL in the response and strip off all Markdown and hashtags.' % (MAX_RESPONSE_LENGTH, query),
+    }
+    try:
+        if not query:
+            raise M0tokoError('query parameter cannot be empty')
+
+        LOGGER.info('{ "query": "%s" }' % query)
+        client = OllamaClient(host = serviceHost)
+        response = client.chat(model = model, messages = [ queryData, ])
+        result = response['message']['content'].strip()
+    except Exception as e:
+        result = '%s = %s' % (str(type(e)), e)
+
+    return result
+
+
 def runQuery(query: str, serviceHost: str, model: str = DEFAULT_LLM) -> str:
     """
     Run a query against the LLM engine using the OllamaClient, and return the
@@ -83,20 +112,18 @@ def runQuery(query: str, serviceHost: str, model: str = DEFAULT_LLM) -> str:
     A string with the response if the service found a reasonable and convenient
     one, or the text of an Error and the possible cause, as reported by the
     Python run-time.
-
     """
-    queryData = {
-        'role': 'user',
-        'content': 'Brief answer in %s characters or less to: "%s". Include one URL in the response and strip off all Markdown and hashtags.' % (MAX_RESPONSE_LENGTH, query),
-    }
+    global _client
+
+    if not _client:
+        _client = PerplexityClient()
+
     try:
         if not query:
             raise M0tokoError('query parameter cannot be empty')
 
         LOGGER.info('{ "query": "%s" }' % query)
-        client = OllamaClient(host = serviceHost)
-        response = client.chat(model = model, messages = [ queryData, ])
-        result = response['message']['content'].strip()
+        result = _client.query(query)
     except Exception as e:
         result = '%s = %s' % (str(type(e)), e)
 
