@@ -1,4 +1,4 @@
-# See: https://github.com/poof-backup/poof/blob/master/LICENSE.txt
+# See:  https://raw.githubusercontent.com/pr3d4t0r/m0toko/master/LICENSE.txt
 
 
 SHELL=/bin/bash
@@ -11,7 +11,7 @@ DIST=./dist
 MANPAGES=./manpages
 PACKAGE=$(shell cat package.txt)
 REQUIREMENTS=requirements.txt
-VERSION=$(shell echo "from poof import __VERSION__; print(__VERSION__)" | python)
+VERSION=$(shell echo "from $(PACKAGE) import __VERSION__; print(__VERSION__)" | python)
 
 
 # Targets:
@@ -58,7 +58,7 @@ local:
 manpage:
 	mkdir -p $(MANPAGES)
 	t=$$(mktemp) && awk -v "v=$(VERSION)" '/^%/ { $$4 = v; print; next; } { print; }' README.md > "$$t" && cat "$$t" > README.md && rm -f "$$t"
-	pandoc --standalone --to man README.md -o $(MANPAGES)/poof.1
+	pandoc --standalone --to man README.md -o $(MANPAGES)/$(PACKAGE).1
 
 
 nuke: ALWAYS
@@ -94,16 +94,14 @@ targets:
 test: ALWAYS
 	@echo "Version = $(VERSION)"
 	@make local
-	pytest -v ./tests/poof-test.py
-	pytest -v ./tests/launchd-test.py
-	pytest -v ./tests/nukedir-test.py
+	pytest -v ./tests/$(PACKAGE)-test.py
 	pip uninstall -y $(PACKAGE)==$(VERSION) || true
 	rm -Rfv $$(find $(PACKAGE)/ | awk '/__pycache__$$/')
 	rm -Rfv $$(find tests | awk '/__pycache__$$/')
 
 
 tools:
-	pip install -U devpi-client pip ptpython pudb pytest
+	pip install -Ur dev-tools.txt
 
 
 upload:

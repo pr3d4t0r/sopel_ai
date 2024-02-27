@@ -1,3 +1,5 @@
+# See:  https://raw.githubusercontent.com/pr3d4t0r/m0toko/master/LICENSE.txt
+
 """
 # m0toko - a bot for querying LLMs and getting quick answers.
 """
@@ -29,6 +31,10 @@ PLUGIN_OUTPUT_PREFIX = '[m0toko] '
 
 
 # +++ implementation +++
+
+class M0tokoError(Exception):
+    def __init__(self, obj):
+        super().__init__(obj)
 
 
 class M0tokoSection(config.types.StaticSection):
@@ -81,9 +87,12 @@ def runQuery(query: str, serviceHost: str, model: str = DEFAULT_LLM) -> str:
         'role': 'user',
         'content': 'Brief answer in %s characters or less to: "%s". Include one URL in the response and strip off all Markdown and hashtags.' % (MAX_RESPONSE_LENGTH, query),
     }
-    client = OllamaClient(host = serviceHost)
     try:
+        if not query:
+            raise M0tokoError('query parameter cannot be empty')
+
         LOGGER.info('{ "query": "%s" }' % query)
+        client = OllamaClient(host = serviceHost)
         response = client.chat(model = model, messages = [ queryData, ])
         result = response['message']['content'].strip()
     except Exception as e:
@@ -102,7 +111,7 @@ def main():
 
 
 @plugin.commands('q', 'llmq', 'lookup')
-@plugin.example('.lookup Some question about anything')
+@plugin.example('.lookup|.q|.llmq Some question about anything')
 @plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
 @plugin.require_account(message = 'You must be a registered user to use this command.', reply = True)
 @plugin.thread(True)
@@ -118,8 +127,8 @@ def lookupCommand(bot, trigger):
     bot.reply(runQuery(trigger.group(2), serviceHost, model))
 
 
-@plugin.commands('qv', 'llmqversion', 'lookupversion')
-@plugin.example(".lookupversion displays the current instance's version")
+@plugin.commands('.mversion')
+@plugin.example(".mversion displays the current 'bot version")
 @plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
 @plugin.require_account(message = 'You must be a registered user to use this command.', reply = True)
 @plugin.thread(True)
@@ -136,9 +145,4 @@ def listModels(bot, trigger):
     models = sorted(e['name'].replace(':latest', '') for e in ollama.list()['models'])
 
     bot.reply('Available models: '+', '.join(models))
-
-
-if '__main__' == __name__:
-    # Used for testing
-    main()
 
