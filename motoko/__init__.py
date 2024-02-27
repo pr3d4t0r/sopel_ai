@@ -6,8 +6,9 @@
 
 
 from ollama import Client as OllamaClient
-from sopel import plugin
 from sopel import config
+from sopel import formatting
+from sopel import plugin
 
 import logging
 import os
@@ -16,15 +17,16 @@ import sys
 import ollama
 
 
-__VERSION__ = '1.0.1'
+__VERSION__ = '1.0.2'
 
 
 # +++ constants +++
 
 CONFIG_FILE = os.path.join('/', os.environ['HOME'], '.sopel/default.cfg')
+DEFAULT_LLM = 'mistral'
 DEFAULT_LLM_PROVIDER = 'ollama'
 DEFAULT_LLM_SERVICE = 'http://localhost:11434/api/generate'
-DEFAULT_LLM = 'mistral'
+GITHUB_NEW_ISSUE_URL = 'https://github.com/pr3d4t0r/m0toko/issues/new'
 LOGGER = logging.getLogger(__name__)
 MAX_RESPONSE_LENGTH = 448
 PLUGIN_OUTPUT_PREFIX = '[m0toko] '
@@ -145,4 +147,14 @@ def listModels(bot, trigger):
     models = sorted(e['name'].replace(':latest', '') for e in ollama.list()['models'])
 
     bot.reply('Available models: '+', '.join(models))
+
+
+@plugin.commands('bug', 'feature', 'req')
+@plugin.example('.bug|.feature|.req Displays the URL for opening a GitHub issues request')
+@plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
+@plugin.require_account(message = 'You must be a registered user to use this command.', reply = True)
+@plugin.thread(True)
+def reqCommand(bot, trigger):
+    locator = formatting.bold(GITHUB_NEW_ISSUE_URL)
+    bot.reply('M0toko version %s. Enter your bug report or feature request at this URL:  %s' % (__VERSION__, locator))
 
