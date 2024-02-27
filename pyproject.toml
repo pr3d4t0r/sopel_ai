@@ -1,0 +1,58 @@
+# See: https://github.com/poof-backup/poof/blob/master/LICENSE.txt
+
+[build-system]
+requires = [ 'setuptools' ]
+build-backend = 'setuptools.build_meta'
+
+
+[metadata]
+url = 'https://github.com/pr3d4t0r/m0toko'
+
+
+[project]
+authors = [
+    { name = 'The m0toko team', email = 'm0toko@cime.net' }
+]
+classifiers = [
+    'Intended Audience :: Other Audience',
+    'License :: OSI Approved :: BSD License',
+    'Operating System :: MacOS',
+    'Operating System :: Unix',
+    'Operating System :: Windows',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.8',
+    'Topic :: Utilities',
+]
+description = 'm0toko - an LLM enhanced chat bot plug-in'
+dynamic = [
+    'dependencies',
+    'version',
+]
+name = 'm0toko'
+readme = 'README.md'
+requires-python = '>=3.8'
+
+
+[project.scripts]
+motoko = 'motoko:main'
+
+
+[tool.pytest.ini_options]
+addopts = '-sv'
+testpaths = [
+    'tests'
+]
+
+
+[tool.setuptools]
+include-package-data = true
+packages = [
+    'motoko',
+    # 'tests', # because test modules import objects from other test modules
+]
+
+
+[tool.setuptools.dynamic]
+dependencies = { file = 'requirements.txt' }
+version = { attr = 'motoko.__VERSION__' }
+
