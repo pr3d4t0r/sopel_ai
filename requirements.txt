@@ -1,3 +1,2 @@
-ollama
 perplexipy
 sopel
