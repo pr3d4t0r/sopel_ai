@@ -5,7 +5,8 @@
 """
 
 
-from ollama import Client as OllamaClient
+from perplexipy import PERPLEXITY_API_URL
+from perplexipy import PerplexityClient
 from sopel import config
 from sopel import formatting
 from sopel import plugin
@@ -14,10 +15,8 @@ import logging
 import os
 import sys
 
-import ollama
 
-
-__VERSION__ = '1.0.2'
+__VERSION__ = '1.0.5'
 
 
 # +++ constants +++
@@ -30,6 +29,11 @@ GITHUB_NEW_ISSUE_URL = 'https://github.com/pr3d4t0r/m0toko/issues/new'
 LOGGER = logging.getLogger(__name__)
 MAX_RESPONSE_LENGTH = 448
 PLUGIN_OUTPUT_PREFIX = '[m0toko] '
+
+
+# +++ globals +++
+
+_client = None
 
 
 # +++ implementation +++
@@ -61,9 +65,18 @@ def shutdown(bot):
     pass
 
 
-def runQuery(query: str, serviceHost: str, model: str = DEFAULT_LLM) -> str:
+def _checkClientInstance():
+    global _client
+
+    if not _client:
+        _client = PerplexityClient(endpoint = PERPLEXITY_API_URL)
+        # TODO:  Make this selectable; see:  https://github.com/pr3d4t0r/m0toko/issues/4
+        _client.model = 'mistral-7b-instruct'
+
+
+def runQuery(query: str) -> str:
     """
-    Run a query against the LLM engine using the OllamaClient, and return the
+    Run a query against the LLM engine using the PerpleipyClient, and return the
     query result in a string.
 
     Arguments
@@ -75,32 +88,46 @@ def runQuery(query: str, serviceHost: str, model: str = DEFAULT_LLM) -> str:
         serviceHost
     The URL to the host serving the LLM results.
 
-        model
-    The model's name (no version) to use for the query.
-
     Returns
     -------
     A string with the response if the service found a reasonable and convenient
     one, or the text of an Error and the possible cause, as reported by the
     Python run-time.
-
     """
-    queryData = {
-        'role': 'user',
-        'content': 'Brief answer in %s characters or less to: "%s". Include one URL in the response and strip off all Markdown and hashtags.' % (MAX_RESPONSE_LENGTH, query),
-    }
+
+    # TODO:  Implement through dynamic loading in a future version.
+    _checkClientInstance()
+
     try:
         if not query:
             raise M0tokoError('query parameter cannot be empty')
+        query = 'Brief answer in %s characters or less to: "%s". Include one URL in the response and strip off all Markdown and hashtags.' % (MAX_RESPONSE_LENGTH, query)
 
         LOGGER.info('{ "query": "%s" }' % query)
-        client = OllamaClient(host = serviceHost)
-        response = client.chat(model = model, messages = [ queryData, ])
-        result = response['message']['content'].strip()
+        result = _client.query(query).replace('\n', '')
     except Exception as e:
         result = '%s = %s' % (str(type(e)), e)
 
     return result
+
+
+def modelsList() -> list:
+    """
+    Returns a list of all available models so that they can be used for
+    requesting a specific one in another command.
+
+    Returns
+    -------
+    A list of model names supported by the underlying API service.
+    """
+    _checkClientInstance()
+
+    return list(_client.models.keys())
+
+
+def versionInfo():
+    _checkClientInstance()
+    return 'm0toko v%s using %s' % (__VERSION__, '.'.join([_client.__class__.__module__, _client.__class__.__name__]))
 
 
 def main():
@@ -117,25 +144,24 @@ def main():
 @plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
 @plugin.require_account(message = 'You must be a registered user to use this command.', reply = True)
 @plugin.thread(True)
-def lookupCommand(bot, trigger):
+def queryCommand(bot, trigger):
     if not trigger.group(2):
         # TODO:  Log this
         bot.reply('No search term. Usage: {}lookup Some question about anything'.format(bot.config.core.help_prefix))
         return
 
     # TODO:  Log this
-    serviceHost = config.Config(CONFIG_FILE).m0toko.llm_service
-    model = config.Config(CONFIG_FILE).m0toko.llm_engine
-    bot.reply(runQuery(trigger.group(2), serviceHost, model))
+    # TODO:  Fix this with dynamic model loading:
+    bot.reply(runQuery(trigger.group(2)))
 
 
-@plugin.commands('.mversion')
-@plugin.example(".mversion displays the current 'bot version")
+@plugin.commands('mver')
+@plugin.example(".mver displays the current 'bot version")
 @plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
 @plugin.require_account(message = 'You must be a registered user to use this command.', reply = True)
 @plugin.thread(True)
 def versionCommand(bot, trigger):
-    bot.reply('m0toko v%s' % __VERSION__)
+    bot.reply(versionInfo())
 
 
 @plugin.commands('models')
@@ -143,9 +169,8 @@ def versionCommand(bot, trigger):
 @plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
 @plugin.require_account(message = 'You must be a registered user to use this command.', reply = True)
 @plugin.thread(True)
-def listModels(bot, trigger):
-    models = sorted(e['name'].replace(':latest', '') for e in ollama.list()['models'])
-
+def modelsCommand(bot, trigger):
+    models = sorted(modelsList())
     bot.reply('Available models: '+', '.join(models))
 
 
@@ -157,4 +182,8 @@ def listModels(bot, trigger):
 def reqCommand(bot, trigger):
     locator = formatting.bold(GITHUB_NEW_ISSUE_URL)
     bot.reply('M0toko version %s. Enter your bug report or feature request at this URL:  %s' % (__VERSION__, locator))
+
+
+if '__main__' == __name__:
+    main()
 
