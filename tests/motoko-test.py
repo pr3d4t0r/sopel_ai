@@ -1,20 +1,34 @@
 # See:  https://raw.githubusercontent.com/pr3d4t0r/m0toko/master/LICENSE.txt
 
-from motoko import runQuery
+from tempfile import mkstemp
+
+from motoko import M0tokoError
+from motoko import _checkDB
 from motoko import modelsList
+from motoko import runQuery
+from motoko import setModelForUser
 from motoko import versionInfo
+from tinydb import TinyDB
+
+import os
 
 import pytest
 
 
-# +++ constants +++
-
-TEST_SERVICEOLLAMA_LOCALHOST = 'http://localhost:11434/api/generate'
-TEST_MODEL = 'mistral'
-
-
-
 # +++ fixtures +++
+@pytest.fixture
+def testDatabasePath(request):
+    def finalizer():
+        try:
+            os.unlink(databasePath)
+        except:
+            pass
+
+    if request:
+        request.addfinalizer(finalizer)
+    databasePath = mkstemp(suffix = '.json', text = True)[1]
+    return databasePath
+
 
 # +++ tests +++
 
@@ -40,5 +54,26 @@ def test_versionInfo():
     assert 'Client' in info
 
 
-test_versionInfo()
+def test__checkDB(testDatabasePath):
+    assert isinstance(_checkDB(testDatabasePath), TinyDB)
+
+
+def test_setModelForUser(testDatabasePath):
+    _checkDB(testDatabasePath)
+
+    # New user:
+    model = setModelForUser(0, 'joe', testDatabasePath)
+    assert model == modelsList()[0]
+
+    # Existing user:
+    model = setModelForUser(1, 'joe', testDatabasePath)
+    assert model == modelsList()[1]
+
+    # Model out of range:
+    with pytest.raises(M0tokoError):
+        setModelForUser(99, 'joe', testDatabasePath)
+
+
+# databasePath = mkstemp(suffix = '.json', text = True)[1]
+# test_setModelForUser(databasePath)
 
