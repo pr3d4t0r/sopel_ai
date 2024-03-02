@@ -1,4 +1,4 @@
-% m0toko(1) Version 1.0.5 | m0toko AI-enhanced chatbot plugin
+% m0toko(1) Version 1.0.6 | m0toko AI-enhanced chatbot plugin
 
 Name
 ====

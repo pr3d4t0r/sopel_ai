@@ -6,6 +6,7 @@
 
 
 # from motoko.errors import M0tokoError
+from perplexipy import PERPLEXITY_API_KEY
 from perplexipy import PERPLEXITY_API_URL
 from perplexipy import PERPLEXITY_DEFAULT_MODEL
 from perplexipy import PerplexityClient
@@ -40,6 +41,7 @@ USER_DB_FILE = os.path.join('/', os.environ['HOME'], '.sopel/m0toko-DB.json')
 # +++ globals +++
 
 _client = None
+_clientCache = dict()
 _database = None
 
 
@@ -88,12 +90,12 @@ def _checkClientInstance():
     global _client
 
     if not _client:
-        _client = PerplexityClient(endpoint = PERPLEXITY_API_URL)
+        _client = PerplexityClient(key = PERPLEXITY_API_KEY, endpoint = PERPLEXITY_API_URL)
         # TODO:  Make this selectable; see:  https://github.com/pr3d4t0r/m0toko/issues/4
         _client.model = PERPLEXITY_DEFAULT_MODEL
 
 
-def runQuery(query: str) -> str:
+def runQuery(query: str, nick: str = None) -> str:
     """
     Run a query against the LLM engine using the PerpleipyClient, and return the
     query result in a string.
@@ -104,8 +106,9 @@ def runQuery(query: str) -> str:
     A string with the 's query in English, Spanish, Russian, French, or any
     other mainstream language.
 
-        serviceHost
-    The URL to the host serving the LLM results.
+        nick
+    The nick on whose behalf this query will run.  The plug-in caches specific
+    clients for users who requested to use a specific model.
 
     Returns
     -------
@@ -114,16 +117,17 @@ def runQuery(query: str) -> str:
     Python run-time.
     """
 
-    # TODO:  Implement through dynamic loading in a future version.
-    _checkClientInstance()
+    if not nick or getModelForUser(nick, USER_DB_FILE) == DEFAULT_LLM:
+        _checkClientInstance()
+        client = _client
+    else:
+        client = _clientCache[nick]
 
     try:
         if not query:
             raise M0tokoError('query parameter cannot be empty')
         query = 'Brief answer in %s characters or less to: "%s". Include one URL in the response and strip off all Markdown and hashtags.' % (MAX_RESPONSE_LENGTH, query)
-
-        LOGGER.info('{ "query": "%s" }' % query)
-        result = _client.query(query).replace('\n', '')
+        result = client.query(query).replace('\n', '')
     except Exception as e:
         result = '%s = %s' % (str(type(e)), e)
 
@@ -154,7 +158,7 @@ def versionInfo():
     return 'm0toko v%s using %s' % (__VERSION__, '.'.join([_client.__class__.__module__, _client.__class__.__name__]))
 
 
-def setModelForUser(modelID: int, nick: str, fileNameDB: str):
+def setModelForUser(modelID: int, nick: str, fileNameDB: str) -> str:
     """
     Set the model associated with `modelID` for processing requests from ``.
     The `modelID` is the index into the `models` object returned by
@@ -196,6 +200,36 @@ def setModelForUser(modelID: int, nick: str, fileNameDB: str):
         _database.insert({ 'nick': nick, 'model': models[modelID], })
 
     return models[modelID]
+
+
+def getModelForUser(nick: str, fileNameDB) -> str:
+    """
+    Get the model name for the user with `nick`.
+
+    Arguments
+    ---------
+        nick
+    A string corresponging to a nick.
+
+        fileNameDB
+    The path to the database in the file system.  Can be absolute or relative.
+
+    Returns
+    -------
+    A string representing the model name, if one exists in the database
+    associated with the user, `motoko.DEFAULT_LLM` otherwise.
+    """
+    _checkDB(fileNameDB)
+    Preference = Query()
+    preference = _database.search(Preference.nick == nick)
+    if preference:
+        model = preference[0]['model']
+        client = PerplexityClient(key = PERPLEXITY_API_KEY, endpoint = PERPLEXITY_API_URL)
+        client.model = model
+        _clientCache[nick] = client
+        return model
+    else:
+        return DEFAULT_LLM
 
 
 def main():
@@ -250,7 +284,7 @@ def _modelsCommand(bot, trigger):
 @plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
 @plugin.require_account(message = 'You must be a registered  to use this command.', reply = True)
 @plugin.thread(True)
-def _setModel(bot, trigger):
+def _setModelCommand(bot, trigger):
     try:
         modelID = int(trigger.group(2))
     except:
@@ -263,6 +297,27 @@ def _setModel(bot, trigger):
         effectiveModelID = modelID-1
         effectiveModel = setModelForUser(effectiveModelID, trigger.nick, USER_DB_FILE)
         bot.reply('All your future interactions will use the %s model.' % effectiveModel)
+
+
+@plugin.commands('getmodel')
+@plugin.example('.getmodel Get the model used in your queries')
+@plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
+@plugin.require_account(message = 'You must be a registered  to use this command.', reply = True)
+@plugin.thread(True)
+def _getModelCommand(bot, trigger):
+    bot.reply(getModelForUser(trigger.nick, USER_DB_FILE))
+
+
+@plugin.commands('mymodel')
+@plugin.example('.mymodel [n] Get or set the model used in your queries; n ::= intefer, see .models for value range for n')
+@plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
+@plugin.require_account(message = 'You must be a registered  to use this command.', reply = True)
+@plugin.thread(True)
+def _myModelCommand(bot, trigger):
+    if not trigger.group(2):
+        _getModelCommand(bot, trigger)
+    else:
+        _setModelCommand(bot, trigger)
 
 
 @plugin.commands('bug', 'feature', 'req')

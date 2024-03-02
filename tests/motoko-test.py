@@ -2,8 +2,10 @@
 
 from tempfile import mkstemp
 
+from motoko import DEFAULT_LLM
 from motoko import M0tokoError
 from motoko import _checkDB
+from motoko import getModelForUser
 from motoko import modelsList
 from motoko import runQuery
 from motoko import setModelForUser
@@ -59,21 +61,38 @@ def test__checkDB(testDatabasePath):
 
 
 def test_setModelForUser(testDatabasePath):
-    _checkDB(testDatabasePath)
-
     # New user:
-    model = setModelForUser(0, 'joe', testDatabasePath)
+    model = setModelForUser(0, 'alice', testDatabasePath)
     assert model == modelsList()[0]
 
     # Existing user:
-    model = setModelForUser(1, 'joe', testDatabasePath)
-    assert model == modelsList()[1]
+    model = setModelForUser(6, 'alice', testDatabasePath)
+    assert model == modelsList()[6]
 
     # Model out of range:
     with pytest.raises(M0tokoError):
-        setModelForUser(99, 'joe', testDatabasePath)
+        setModelForUser(99, 'alice', testDatabasePath)
 
 
+def test_getModelForUser(testDatabasePath):
+    model = getModelForUser('alice', testDatabasePath)
+    assert isinstance(model, str)
+
+    model = getModelForUser('bob', testDatabasePath)
+    assert model == DEFAULT_LLM
+
+
+def test_runQueryForUser():
+    # Uses the database so it must run after the set/get
+    # model tests.
+    nick = 'alice'
+    query = 'What is a large language model?'
+    result = runQuery(query, nick)
+    assert result
+
+# For the testing in the debugger
 # databasePath = mkstemp(suffix = '.json', text = True)[1]
 # test_setModelForUser(databasePath)
+# test_getModelForUser(databasePath)
+# test_runQueryForUser()
 
