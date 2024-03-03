@@ -11,7 +11,7 @@ url = 'https://github.com/pr3d4t0r/m0toko'
 
 [project]
 authors = [
-    { name = 'The m0toko team', email = 'm0toko@cime.net' }
+    { name = 'The M0toko team', email = 'm0toko@cime.net' }
 ]
 classifiers = [
     'Intended Audience :: Other Audience',

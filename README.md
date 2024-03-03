@@ -11,6 +11,17 @@ Synopsis
 Coming soon.
 
 
+License
+=======
+The **M0toko** Sopel plug-in, package, documentation, and examples are licensed
+under the [BSD-3 open source license](https://github.com/pr3d4t0r/m0toko/blob/master/LICENSE.txt).
+
+
+See also
+========
+- Sopel bot home page:  <a href='https://sopel.chat/' target='_blank'>https://sopel.chat</a>
+
+
 Bugs
 ====
 Feature requests and bug reports:
