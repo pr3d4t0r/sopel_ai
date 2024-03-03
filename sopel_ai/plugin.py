@@ -52,7 +52,7 @@ def _queryCommand(bot: SopelWrapper, trigger: Trigger) -> None:
         return
 
     # TODO:  Log this
-    bot.reply(runQuery(trigger.group(2)))
+    bot.reply(runQuery(trigger.group(2), trigger.nick))
 
 
 @plugin.commands('qpm', 'llmqpm')
@@ -66,7 +66,7 @@ def _queryCommandPrivateMessage(bot: SopelWrapper, trigger: Trigger) -> None:
         bot.reply('No search term. Usage: {}qpm Some question about anything'.format(bot.config.core.help_prefix))
         return
 
-    bot.say(runQuery(trigger.group(2)), trigger.nick)
+    bot.say(runQuery(trigger.group(2), trigger.nick), trigger.nick)
 
 
 @plugin.commands('mver')

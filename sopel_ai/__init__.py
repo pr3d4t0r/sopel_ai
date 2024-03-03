@@ -28,9 +28,14 @@ DEFAULT_LLM_PROVIDER = 'PerplexityAI'
 DEFAULT_LLM_SERVICE = PERPLEXITY_API_URL
 DEFAULT_LOG_LEVEL = 'info'
 GITHUB_NEW_ISSUE_URL = 'https://github.com/pr3d4t0r/sopel_ai/issues/new'
-LOGGER = logging.getLogger(__name__)
 MAX_RESPONSE_LENGTH = 448
 USER_DB_FILE = os.path.join('/', os.environ['HOME'], '.sopel/sopel_ai-DB.json')
+
+
+# +++ initializations +++
+
+# logging.basicConfig(encoding = 'utf-8', level = logging.INFO)
+
 
 
 # +++ globals +++
@@ -38,6 +43,7 @@ USER_DB_FILE = os.path.join('/', os.environ['HOME'], '.sopel/sopel_ai-DB.json')
 _client = None
 _clientCache = dict()
 _database = None
+# _log = logging.getLogger(__name__)
 
 
 # +++ implementation +++
@@ -82,10 +88,15 @@ def runQuery(query: str, nick: str = None) -> str:
     Python run-time.
     """
 
-    if not nick or getModelForUser(nick, USER_DB_FILE) == DEFAULT_LLM:
+    logging.info('%s queried: %s' % (nick, query))
+    model = getModelForUser(nick, USER_DB_FILE)
+    print('*** nick = %s, query = %s, model = %s' % (nick, query, model))
+    if not nick or model == DEFAULT_LLM:
+        print('*** using client-specific ***')
         _checkClientInstance()
         client = _client
     else:
+        print('*** using client default ***')
         client = _clientCache[nick]
 
     try:
