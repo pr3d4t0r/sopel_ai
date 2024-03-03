@@ -13,11 +13,11 @@ from sopel_ai.errors import M0tokoError
 from tinydb import Query
 from tinydb import TinyDB
 
-import logging
+# import logging
 import os
 
 
-__VERSION__ = '1.0.9'
+__VERSION__ = '1.0.10'
 
 
 # +++ constants +++
@@ -34,7 +34,7 @@ USER_DB_FILE = os.path.join('/', os.environ['HOME'], '.sopel/sopel_ai-DB.json')
 
 # +++ initializations +++
 
-# logging.basicConfig(encoding = 'utf-8', level = logging.INFO)
+# logging.basicConfig(format = '%(asctime)s %(clientip)-15s %(user)-8s %(message)s', encoding = 'utf-8', level = logging.INFO)
 
 
 
@@ -88,15 +88,12 @@ def runQuery(query: str, nick: str = None) -> str:
     Python run-time.
     """
 
-    logging.info('%s queried: %s' % (nick, query))
     model = getModelForUser(nick, USER_DB_FILE)
     print('*** nick = %s, query = %s, model = %s' % (nick, query, model))
     if not nick or model == DEFAULT_LLM:
-        print('*** using client-specific ***')
         _checkClientInstance()
         client = _client
     else:
-        print('*** using client default ***')
         client = _clientCache[nick]
 
     try:
