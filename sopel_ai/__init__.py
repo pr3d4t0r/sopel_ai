@@ -1,7 +1,7 @@
-# See:  https://raw.githubcontent.com/pr3d4t0r/m0toko/master/LICENSE.txt
+# See:  https://raw.githubcontent.com/pr3d4t0r/sopel_ai/master/LICENSE.txt
 
 """
-# m0toko - a bot plugin for querying LLMs and getting quick answers.
+# sopel_ai - a bot plugin for querying LLMs and getting quick answers.
 """
 
 
@@ -9,7 +9,7 @@ from perplexipy import PERPLEXITY_API_KEY
 from perplexipy import PERPLEXITY_API_URL
 from perplexipy import PERPLEXITY_DEFAULT_MODEL
 from perplexipy import PerplexityClient
-from sopel_motoko.errors import M0tokoError
+from sopel_ai.errors import M0tokoError
 from tinydb import Query
 from tinydb import TinyDB
 
@@ -27,10 +27,10 @@ DEFAULT_LLM = PERPLEXITY_DEFAULT_MODEL
 DEFAULT_LLM_PROVIDER = 'PerplexityAI'
 DEFAULT_LLM_SERVICE = PERPLEXITY_API_URL
 DEFAULT_LOG_LEVEL = 'info'
-GITHUB_NEW_ISSUE_URL = 'https://github.com/pr3d4t0r/m0toko/issues/new'
+GITHUB_NEW_ISSUE_URL = 'https://github.com/pr3d4t0r/sopel_ai/issues/new'
 LOGGER = logging.getLogger(__name__)
 MAX_RESPONSE_LENGTH = 448
-USER_DB_FILE = os.path.join('/', os.environ['HOME'], '.sopel/m0toko-DB.json')
+USER_DB_FILE = os.path.join('/', os.environ['HOME'], '.sopel/sopel_ai-DB.json')
 
 
 # +++ globals +++
@@ -57,7 +57,6 @@ def _checkClientInstance() -> None:
 
     if not _client:
         _client = PerplexityClient(key = PERPLEXITY_API_KEY, endpoint = PERPLEXITY_API_URL)
-        # TODO:  Make this selectable; see:  https://github.com/pr3d4t0r/m0toko/issues/4
         _client.model = PERPLEXITY_DEFAULT_MODEL
 
 
@@ -121,7 +120,7 @@ def modelsList() -> list:
 
 def versionInfo() -> str:
     _checkClientInstance()
-    return 'm0toko v%s using %s' % (__VERSION__, '.'.join([_client.__class__.__module__, _client.__class__.__name__]))
+    return 'sopel_ai v%s using %s' % (__VERSION__, '.'.join([_client.__class__.__module__, _client.__class__.__name__]))
 
 
 def setModelForUser(modelID: int, nick: str, fileNameDB: str) -> str:

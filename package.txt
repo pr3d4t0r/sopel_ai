@@ -1,1 +1,1 @@
-sopel_motoko
+sopel_ai

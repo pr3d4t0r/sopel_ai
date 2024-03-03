@@ -1,4 +1,4 @@
-# See:  https://raw.githubusercontent.com/pr3d4t0r/m0toko/master/LICENSE.txt
+# See:  https://raw.githubusercontent.com/pr3d4t0r/sopel_ai/master/LICENSE.txt
 
 
 class M0tokoError(Exception):

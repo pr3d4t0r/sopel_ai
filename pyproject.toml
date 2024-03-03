@@ -1,4 +1,4 @@
-# See: https://github.com/poof-backup/poof/blob/master/LICENSE.txt
+# See:  https://raw.githubusercontent.com/pr3d4t0r/sopel_ai/master/LICENSE.txt
 
 [build-system]
 requires = [ 'setuptools' ]
@@ -6,24 +6,26 @@ build-backend = 'setuptools.build_meta'
 
 
 [metadata]
-url = 'https://github.com/pr3d4t0r/m0toko'
+url = 'https://github.com/pr3d4t0r/sopel_ai'
 
 
 [project]
 authors = [
-    { name = 'The M0toko team', email = 'm0toko@cime.net' }
+    { name = 'The SopelAI team', email = 'sopel_ai@cime.net' }
 ]
 classifiers = [
-    'Intended Audience :: Other Audience',
+    'Intended Audience :: Developers',
+    'Intended Audience :: System Administrators',
     'License :: OSI Approved :: BSD License',
     'Operating System :: MacOS',
+    'Operating System :: Posix :: Linux',
     'Operating System :: Unix',
-    'Operating System :: Windows',
     'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Topic :: Communications :: Chat',
     'Topic :: Utilities',
 ]
-description = 'm0toko - an LLM enhanced chat bot plug-in'
+description = 'Sopel AI - an LLM enhanced chat bot plug-in'
 dynamic = [
     'dependencies',
     'version',
@@ -36,13 +38,13 @@ keywords = [
     'plugin',
     'sopel'
 ]
-name = 'sopel_motoko'
+name = 'sopel-ai'
 readme = 'README.md'
-requires-python = '>=3.8'
+requires-python = '>=3.9'
 
 
 [project.entry-points.'sopel.plugins']
-motoko = 'sopel_motoko.plugin'
+motoko = 'sopel_ai.plugin'
 
 
 # [project.scripts]
@@ -50,8 +52,8 @@ motoko = 'sopel_motoko.plugin'
 
 
 [project.urls]
-Homepage = 'https://github.com/pr3d4t0r/m0toko'
-'Bug Tracker' = 'https://github.com/pr3d4t0r/m0toko/issues'
+Homepage = 'https://github.com/pr3d4t0r/sopel_ai'
+'Bug Tracker' = 'https://github.com/pr3d4t0r/sopel_ai/issues'
 
 
 [tool.pytest.ini_options]
@@ -64,12 +66,12 @@ testpaths = [
 [tool.setuptools]
 include-package-data = true
 packages = [
-    'sopel_motoko',
+    'sopel_ai',
     # 'tests', # because test modules import objects from other test modules
 ]
 
 
 [tool.setuptools.dynamic]
 dependencies = { file = 'requirements.txt' }
-version = { attr = 'sopel_motoko.__VERSION__' }
+version = { attr = 'sopel_ai.__VERSION__' }
 

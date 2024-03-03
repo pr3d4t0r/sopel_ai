@@ -1,15 +1,15 @@
-# See:  https://raw.githubusercontent.com/pr3d4t0r/m0toko/master/LICENSE.txt
+# See:  https://raw.githubusercontent.com/pr3d4t0r/sopel_ai/master/LICENSE.txt
 
 from tempfile import mkstemp
 
-from sopel_motoko import DEFAULT_LLM
-from sopel_motoko import M0tokoError
-from sopel_motoko import _checkDB
-from sopel_motoko import getModelForUser
-from sopel_motoko import modelsList
-from sopel_motoko import runQuery
-from sopel_motoko import setModelForUser
-from sopel_motoko import versionInfo
+from sopel_ai import DEFAULT_LLM
+from sopel_ai import M0tokoError
+from sopel_ai import _checkDB
+from sopel_ai import getModelForUser
+from sopel_ai import modelsList
+from sopel_ai import runQuery
+from sopel_ai import setModelForUser
+from sopel_ai import versionInfo
 from tinydb import TinyDB
 
 import os

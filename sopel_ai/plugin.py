@@ -1,4 +1,4 @@
-# See:  https://raw.githubcontent.com/pr3d4t0r/m0toko/master/LICENSE.txt
+# See:  https://raw.githubcontent.com/pr3d4t0r/sopel_ai/master/LICENSE.txt
 
 from sopel import formatting
 from sopel import plugin
@@ -6,38 +6,38 @@ from sopel.bot import Sopel
 from sopel.bot import SopelWrapper
 from sopel.config import Config
 from sopel.trigger import Trigger
-from sopel_motoko import DEFAULT_LLM
-from sopel_motoko import DEFAULT_LLM_PROVIDER
-from sopel_motoko import DEFAULT_LLM_SERVICE
-from sopel_motoko import DEFAULT_LOG_LEVEL
-from sopel_motoko import GITHUB_NEW_ISSUE_URL
-from sopel_motoko import USER_DB_FILE
-from sopel_motoko import __VERSION__
-from sopel_motoko import getModelForUser
-from sopel_motoko import modelsList
-from sopel_motoko import runQuery
-from sopel_motoko import setModelForUser
-from sopel_motoko import versionInfo
-from sopel_motoko.config import M0tokoSection
+from sopel_ai import DEFAULT_LLM
+from sopel_ai import DEFAULT_LLM_PROVIDER
+from sopel_ai import DEFAULT_LLM_SERVICE
+from sopel_ai import DEFAULT_LOG_LEVEL
+from sopel_ai import GITHUB_NEW_ISSUE_URL
+from sopel_ai import USER_DB_FILE
+from sopel_ai import __VERSION__
+from sopel_ai import getModelForUser
+from sopel_ai import modelsList
+from sopel_ai import runQuery
+from sopel_ai import setModelForUser
+from sopel_ai import versionInfo
+from sopel_ai.config import SopelAISection
 
 
 # +++ constants +++
 
-PLUGIN_OUTPUT_PREFIX = '[m0toko] '
+PLUGIN_OUTPUT_PREFIX = '[sopel_ai] '
 
 
 # +++ implementation +++
 
 def setup(bot: Sopel) -> None:
-    bot.config.define_section('m0toko', M0tokoSection)
+    bot.config.define_section('sopel_ai', SopelAISection)
 
 
 def configure(config: Config) -> None:
-    config.define_section('m0toko', M0tokoSection)
-    config.m0toko.configure_setting('llm_engine', 'Set the LLM engine', default = DEFAULT_LLM)
-    config.m0toko.configure_setting('llm_provider', 'Set the LLM provider name', default = DEFAULT_LLM_PROVIDER)
-    config.m0toko.configure_setting('llm_service', 'Set the LLM service URL', default = DEFAULT_LLM_SERVICE)
-    config.m0toko.configure_setting('logLevel', 'Set the log level', default = DEFAULT_LOG_LEVEL)
+    config.define_section('sopel_ai', SopelAISection)
+    config.sopel_ai.configure_setting('llm_engine', 'Set the LLM engine', default = DEFAULT_LLM)
+    config.sopel_ai.configure_setting('llm_provider', 'Set the LLM provider name', default = DEFAULT_LLM_PROVIDER)
+    config.sopel_ai.configure_setting('llm_service', 'Set the LLM service URL', default = DEFAULT_LLM_SERVICE)
+    config.sopel_ai.configure_setting('logLevel', 'Set the log level', default = DEFAULT_LOG_LEVEL)
 
 
 @plugin.commands('q', 'llmq', 'lookup')
@@ -126,5 +126,5 @@ def _myModelCommand(bot: SopelWrapper, trigger: Trigger) -> None:
 @plugin.thread(True)
 def _reqCommand(bot: SopelWrapper, trigger: Trigger) -> None:
     locator = formatting.bold(GITHUB_NEW_ISSUE_URL)
-    bot.reply('M0toko version %s. Enter your bug report or feature request at this URL:  %s' % (__VERSION__, locator))
+    bot.reply('SopelAI version %s. Enter your bug report or feature request at this URL:  %s' % (__VERSION__, locator))
 

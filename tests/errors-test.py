@@ -1,7 +1,7 @@
-# See:  https://raw.githubusercontent.com/pr3d4t0r/m0toko/master/LICENSE.txt
+# See:  https://raw.githubusercontent.com/pr3d4t0r/sopel_ai/master/LICENSE.txt
 
 
-from sopel_motoko.errors import M0tokoError
+from sopel_ai.errors import M0tokoError
 
 
 # +++ tests +++
