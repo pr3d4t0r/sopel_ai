@@ -1,4 +1,4 @@
-% sopel_ai(1) Version 1.0.9 chatbot plugin
+% sopel_ai(1) Version 1.0.10 chatbot plugin
 
 Name
 ====
