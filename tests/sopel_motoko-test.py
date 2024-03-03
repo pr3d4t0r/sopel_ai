@@ -2,14 +2,14 @@
 
 from tempfile import mkstemp
 
-from motoko import DEFAULT_LLM
-from motoko import M0tokoError
-from motoko import _checkDB
-from motoko import getModelForUser
-from motoko import modelsList
-from motoko import runQuery
-from motoko import setModelForUser
-from motoko import versionInfo
+from sopel_motoko import DEFAULT_LLM
+from sopel_motoko import M0tokoError
+from sopel_motoko import _checkDB
+from sopel_motoko import getModelForUser
+from sopel_motoko import modelsList
+from sopel_motoko import runQuery
+from sopel_motoko import setModelForUser
+from sopel_motoko import versionInfo
 from tinydb import TinyDB
 
 import os

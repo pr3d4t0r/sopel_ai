@@ -28,13 +28,34 @@ dynamic = [
     'dependencies',
     'version',
 ]
-name = 'm0toko'
+keywords = [
+    'ai',
+    'bot',
+    'irc',
+    'llm',
+    'plugin',
+    'sopel'
+]
+name = 'sopel_motoko'
 readme = 'README.md'
 requires-python = '>=3.8'
 
 
-[project.scripts]
-motoko = 'motoko:main'
+# [project.entry-points.'sopel-plugins']
+# motoko = 'sopel_motoko.plugin'
+#
+#
+# [project.entry-points.'sopel_motoko.choices']
+# stable = 'sopel_motoko.choices:Stable'
+#
+#
+# [project.scripts]
+# motoko = 'motoko:main'
+
+
+[project.urls]
+Homepage = 'https://github.com/pr3d4t0r/m0toko'
+'Bug Tracker' = 'https://github.com/pr3d4t0r/m0toko/issues'
 
 
 [tool.pytest.ini_options]
@@ -47,12 +68,12 @@ testpaths = [
 [tool.setuptools]
 include-package-data = true
 packages = [
-    'motoko',
+    'sopel_motoko',
     # 'tests', # because test modules import objects from other test modules
 ]
 
 
 [tool.setuptools.dynamic]
 dependencies = { file = 'requirements.txt' }
-version = { attr = 'motoko.__VERSION__' }
+version = { attr = 'sopel_motoko.__VERSION__' }
 
