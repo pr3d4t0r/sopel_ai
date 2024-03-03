@@ -18,7 +18,7 @@ classifiers = [
     'Intended Audience :: System Administrators',
     'License :: OSI Approved :: BSD License',
     'Operating System :: MacOS',
-    'Operating System :: Posix :: Linux',
+    'Operating System :: POSIX :: Linux',
     'Operating System :: Unix',
     'Programming Language :: Python :: 3',
     'Programming Language :: Python :: 3.9',
@@ -44,7 +44,7 @@ requires-python = '>=3.9'
 
 
 [project.entry-points.'sopel.plugins']
-motoko = 'sopel_ai.plugin'
+sopel_ai = 'sopel_ai.plugin'
 
 
 # [project.scripts]
