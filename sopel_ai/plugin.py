@@ -40,20 +40,33 @@ def configure(config: Config) -> None:
     config.sopel_ai.configure_setting('logLevel', 'Set the log level', default = DEFAULT_LOG_LEVEL)
 
 
-@plugin.commands('q', 'llmq', 'lookup')
-@plugin.example('.lookup|.q|.llmq Some question about anything')
+@plugin.commands('q', 'llmq')
+@plugin.example('.q|.llmq Some question about anything')
 @plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
 @plugin.require_account(message = 'You must be a registered  to use this command.', reply = True)
 @plugin.thread(True)
 def _queryCommand(bot: SopelWrapper, trigger: Trigger) -> None:
     if not trigger.group(2):
         # TODO:  Log this
-        bot.reply('No search term. Usage: {}lookup Some question about anything'.format(bot.config.core.help_prefix))
+        bot.reply('No search term. Usage: {}q Some question about anything'.format(bot.config.core.help_prefix))
         return
 
     # TODO:  Log this
-    # TODO:  Fix this with dynamic model loading:
     bot.reply(runQuery(trigger.group(2)))
+
+
+@plugin.commands('qpm', 'llmqpm')
+@plugin.example('.qpm|.llmqpm Some question about anything; I will reply to you in a private message')
+@plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
+@plugin.require_account(message = 'You must be a registered  to use this command.', reply = True)
+@plugin.thread(True)
+def _queryCommandPrivateMessage(bot: SopelWrapper, trigger: Trigger) -> None:
+    if not trigger.group(2):
+        # TODO:  Log this
+        bot.reply('No search term. Usage: {}qpm Some question about anything'.format(bot.config.core.help_prefix))
+        return
+
+    bot.say(runQuery(trigger.group(2)), trigger.nick)
 
 
 @plugin.commands('mver')
