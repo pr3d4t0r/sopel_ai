@@ -2,3 +2,4 @@ devpi-client
 ptpython
 pudb
 pytest
+twine
