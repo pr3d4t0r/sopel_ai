@@ -13,6 +13,11 @@ from sopel_motoko import DEFAULT_LOG_LEVEL
 from sopel_motoko import GITHUB_NEW_ISSUE_URL
 from sopel_motoko import USER_DB_FILE
 from sopel_motoko import __VERSION__
+from sopel_motoko import getModelForUser
+from sopel_motoko import modelsList
+from sopel_motoko import runQuery
+from sopel_motoko import setModelForUser
+from sopel_motoko import versionInfo
 from sopel_motoko.config import M0tokoSection
 
 
@@ -23,16 +28,16 @@ PLUGIN_OUTPUT_PREFIX = '[m0toko] '
 
 # +++ implementation +++
 
+def setup(bot: Sopel) -> None:
+    bot.config.define_section('m0toko', M0tokoSection)
+
+
 def configure(config: Config) -> None:
     config.define_section('m0toko', M0tokoSection)
     config.m0toko.configure_setting('llm_engine', 'Set the LLM engine', default = DEFAULT_LLM)
     config.m0toko.configure_setting('llm_provider', 'Set the LLM provider name', default = DEFAULT_LLM_PROVIDER)
     config.m0toko.configure_setting('llm_service', 'Set the LLM service URL', default = DEFAULT_LLM_SERVICE)
     config.m0toko.configure_setting('logLevel', 'Set the log level', default = DEFAULT_LOG_LEVEL)
-
-
-def setup(bot: Sopel) -> None:
-    bot.config.define_section('m0toko', M0tokoSection)
 
 
 @plugin.commands('q', 'llmq', 'lookup')

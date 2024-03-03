@@ -5,17 +5,16 @@
 """
 
 
-# from motoko.errors import M0tokoError
 from perplexipy import PERPLEXITY_API_KEY
 from perplexipy import PERPLEXITY_API_URL
 from perplexipy import PERPLEXITY_DEFAULT_MODEL
 from perplexipy import PerplexityClient
+from sopel_motoko.errors import M0tokoError
 from tinydb import Query
 from tinydb import TinyDB
 
 import logging
 import os
-import sys
 
 
 __VERSION__ = '1.0.7'
@@ -43,11 +42,7 @@ _database = None
 
 # +++ implementation +++
 
-class M0tokoError(Exception):
-    def __init__(self, exceptionInfo):
-        super().__init__(exceptionInfo)
-
-def _checkDB(fileName: str = USER_DB_FILE):
+def _checkDB(fileName: str = USER_DB_FILE) -> TinyDB:
     # Checks if DB exists; if not, it creates it
     global _database
 
@@ -57,7 +52,7 @@ def _checkDB(fileName: str = USER_DB_FILE):
     return _database
 
 
-def _checkClientInstance():
+def _checkClientInstance() -> None:
     global _client
 
     if not _client:
@@ -124,7 +119,7 @@ def modelsList() -> list:
     return sorted(list(_client.models.keys()))
 
 
-def versionInfo():
+def versionInfo() -> str:
     _checkClientInstance()
     return 'm0toko v%s using %s' % (__VERSION__, '.'.join([_client.__class__.__module__, _client.__class__.__name__]))
 

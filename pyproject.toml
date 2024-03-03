@@ -41,14 +41,10 @@ readme = 'README.md'
 requires-python = '>=3.8'
 
 
-# [project.entry-points.'sopel-plugins']
-# motoko = 'sopel_motoko.plugin'
-#
-#
-# [project.entry-points.'sopel_motoko.choices']
-# stable = 'sopel_motoko.choices:Stable'
-#
-#
+[project.entry-points.'sopel.plugins']
+motoko = 'sopel_motoko.plugin'
+
+
 # [project.scripts]
 # motoko = 'motoko:main'
 
