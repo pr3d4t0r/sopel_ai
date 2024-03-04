@@ -1,10 +1,10 @@
 # See:  https://raw.githubcontent.com/pr3d4t0r/sopel_ai/master/LICENSE.txt
 
 from sopel import config
-from sopel_ai import DEFAULT_LLM
-from sopel_ai import DEFAULT_LLM_PROVIDER
-from sopel_ai import DEFAULT_LLM_SERVICE
-from sopel_ai import DEFAULT_LOG_LEVEL
+from sopel_ai.core import DEFAULT_LLM
+from sopel_ai.core import DEFAULT_LLM_PROVIDER
+from sopel_ai.core import DEFAULT_LLM_SERVICE
+from sopel_ai.core import DEFAULT_LOG_LEVEL
 
 
 class SopelAISection(config.types.StaticSection):

@@ -11,6 +11,7 @@ DIST=./dist
 MANPAGES=./manpages
 PACKAGE=$(shell cat package.txt)
 REQUIREMENTS=requirements.txt
+API_DOC_DIR="./docs"
 VERSION=$(shell echo "from $(PACKAGE) import __VERSION__; print(__VERSION__)" | python)
 
 
@@ -19,6 +20,7 @@ VERSION=$(shell echo "from $(PACKAGE) import __VERSION__; print(__VERSION__)" | 
 all: ALWAYS
 	make test
 	make manpage
+	make docs
 	make package
 
 
@@ -40,6 +42,11 @@ devpi:
 	devpi use $(DEVPI_USER)/dev
 	devpi -v use --set-cfg $(DEVPI_USER)/dev
 	@[[ -e "pip.conf-bak" ]] && rm -f "pip.conf-bak"
+
+
+docs: ALWAYS
+	mkdir -p $(API_DOC_DIR)
+	VERSION="$(VERSION)" pdoc --logo="https://images2.imgbox.com/57/94/AsI1WSfy_o.png" --favicon="https://cime.net/upload_area/favicon.ico" -n -o $(API_DOC_DIR) -t ./resources $(PACKAGE)
 
 
 install:
