@@ -30,6 +30,7 @@ import os
 # +++ constants +++
 
 _PLUGIN_OUTPUT_PREFIX = '[sopel_ai] '
+_PRIVATE_MESSAGE_RESPONSE_LENGTH = 12*1024
 _USER_DB_FILE = os.path.join('/', os.environ['HOME'], '.sopel/sopel_ai-DB.json')
 
 
@@ -79,7 +80,7 @@ def _queryCommandPrivateMessage(bot: SopelWrapper, trigger: Trigger) -> None:
         bot.reply('No search term. Usage: {}qpm Some question about anything'.format(bot.config.core.help_prefix))
         return
 
-    bot.say(runQuery(trigger.group(2), trigger.nick), trigger.nick)
+    bot.say(runQuery(trigger.group(2), trigger.nick), trigger.nick, responseLength = _PRIVATE_MESSAGE_RESPONSE_LENGTH)
 
 
 @plugin.commands('mver')

@@ -66,7 +66,7 @@ def _checkClientInstance() -> None:
         _client.model = PERPLEXITY_DEFAULT_MODEL
 
 
-def runQuery(query: str, nick: str = None, fileNameDB: str = None) -> str:
+def runQuery(query: str, nick: str = None, fileNameDB: str = None, responseLength: int = MAX_RESPONSE_LENGTH) -> str:
     """
     Run a query against the LLM engine using the PerplexipyClient, and return the
     query result in a string.
@@ -84,6 +84,9 @@ def runQuery(query: str, nick: str = None, fileNameDB: str = None) -> str:
         fileNameDB
     The path to the database in the file system.  Can be absolute or relative.
 
+        responseLength
+    The maximum response length requested from the AI provider.  See `MAX_RESPONSE_LENGTH`.
+
     Returns
     -------
     A string with the response if the service found a reasonable and convenient
@@ -92,7 +95,6 @@ def runQuery(query: str, nick: str = None, fileNameDB: str = None) -> str:
 
     ---
     """
-
     _checkDB(fileNameDB)
     model = getModelForUser(nick, fileNameDB)
     if not nick or model == DEFAULT_LLM:
@@ -104,7 +106,7 @@ def runQuery(query: str, nick: str = None, fileNameDB: str = None) -> str:
     try:
         if not query:
             raise M0tokoError('query parameter cannot be empty')
-        query = 'Brief answer in %s characters or less to: "%s". Include one URL in the response and strip off all Markdown and hashtags.' % (MAX_RESPONSE_LENGTH, query)
+        query = 'Brief answer in %s characters or less to: "%s". Include one URL in the response and strip off all Markdown and hashtags.' % (responseLength, query)
         result = client.query(query).replace('\n', '')
     except Exception as e:
         result = '%s = %s' % (str(type(e)), e)
@@ -214,5 +216,4 @@ def getModelForUser(nick: str, fileNameDB: str) -> str:
         return model
     else:
         return DEFAULT_LLM
-
 
