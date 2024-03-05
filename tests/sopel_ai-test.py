@@ -2,14 +2,14 @@
 
 from tempfile import mkstemp
 
-from sopel_ai import DEFAULT_LLM
-from sopel_ai import M0tokoError
-from sopel_ai import _checkDB
-from sopel_ai import getModelForUser
-from sopel_ai import modelsList
-from sopel_ai import runQuery
-from sopel_ai import setModelForUser
-from sopel_ai import versionInfo
+from sopel_ai.core import DEFAULT_LLM
+from sopel_ai.core import M0tokoError
+from sopel_ai.core import _checkDB
+from sopel_ai.core import getModelForUser
+from sopel_ai.core import modelsList
+from sopel_ai.core import runQuery
+from sopel_ai.core import setModelForUser
+from sopel_ai.core import versionInfo
 from tinydb import TinyDB
 
 import os
@@ -34,10 +34,10 @@ def testDatabasePath(request):
 
 # +++ tests +++
 
-def test_runQuery():
+def test_runQuery(testDatabasePath):
     query = 'What is a large language model?'
 
-    result = runQuery(query)
+    result = runQuery(query, fileNameDB = testDatabasePath)
     assert type(result) == str
     assert 'M0tokoError' not in result
 
@@ -82,16 +82,17 @@ def test_getModelForUser(testDatabasePath):
     assert model == DEFAULT_LLM
 
 
-def test_runQueryForUser():
+def test_runQueryForUser(testDatabasePath):
     # Uses the database so it must run after the set/get
     # model tests.
     nick = 'alice'
     query = 'What is a large language model?'
-    result = runQuery(query, nick)
+    result = runQuery(query, nick, fileNameDB = testDatabasePath)
     assert result
 
 # For the testing in the debugger
 # databasePath = mkstemp(suffix = '.json', text = True)[1]
+# test_runQuery(databasePath)
 # test_setModelForUser(databasePath)
 # test_getModelForUser(databasePath)
 # test_runQueryForUser()

@@ -1,38 +1,51 @@
 # See:  https://raw.githubcontent.com/pr3d4t0r/sopel_ai/master/LICENSE.txt
+"""
+This module is intended for interfacing with Sopel and there are no
+user-callable objects, functions defined in it.  If in doubt, user the Force and
+read the Source.
+"""
 
-from sopel import formatting
-from sopel import plugin
 from sopel.bot import Sopel
 from sopel.bot import SopelWrapper
 from sopel.config import Config
+from sopel import formatting
+from sopel import plugin
 from sopel.trigger import Trigger
-from sopel_ai import DEFAULT_LLM
-from sopel_ai import DEFAULT_LLM_PROVIDER
-from sopel_ai import DEFAULT_LLM_SERVICE
-from sopel_ai import DEFAULT_LOG_LEVEL
-from sopel_ai import GITHUB_NEW_ISSUE_URL
-from sopel_ai import USER_DB_FILE
-from sopel_ai import __VERSION__
-from sopel_ai import getModelForUser
-from sopel_ai import modelsList
-from sopel_ai import runQuery
-from sopel_ai import setModelForUser
-from sopel_ai import versionInfo
 from sopel_ai.config import SopelAISection
+from sopel_ai.core import DEFAULT_LLM
+from sopel_ai.core import DEFAULT_LLM_PROVIDER
+from sopel_ai.core import DEFAULT_LLM_SERVICE
+from sopel_ai.core import DEFAULT_LOG_LEVEL
+from sopel_ai.core import GITHUB_NEW_ISSUE_URL
+from sopel_ai.core import __VERSION__
+from sopel_ai.core import getModelForUser
+from sopel_ai.core import modelsList
+from sopel_ai.core import runQuery
+from sopel_ai.core import setModelForUser
+from sopel_ai.core import versionInfo
+
+import os
 
 
 # +++ constants +++
 
-PLUGIN_OUTPUT_PREFIX = '[sopel_ai] '
+_PLUGIN_OUTPUT_PREFIX = '[sopel_ai] '
+_USER_DB_FILE = os.path.join('/', os.environ['HOME'], '.sopel/sopel_ai-DB.json')
 
 
 # +++ implementation +++
 
 def setup(bot: Sopel) -> None:
+    """
+    @private
+    """
     bot.config.define_section('sopel_ai', SopelAISection)
 
 
 def configure(config: Config) -> None:
+    """
+    @private
+    """
     config.define_section('sopel_ai', SopelAISection)
     config.sopel_ai.configure_setting('llm_engine', 'Set the LLM engine', default = DEFAULT_LLM)
     config.sopel_ai.configure_setting('llm_provider', 'Set the LLM provider name', default = DEFAULT_LLM_PROVIDER)
@@ -42,7 +55,7 @@ def configure(config: Config) -> None:
 
 @plugin.commands('q', 'llmq')
 @plugin.example('.q|.llmq Some question about anything')
-@plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
+@plugin.output_prefix(_PLUGIN_OUTPUT_PREFIX)
 @plugin.require_account(message = 'You must be a registered  to use this command.', reply = True)
 @plugin.thread(True)
 def _queryCommand(bot: SopelWrapper, trigger: Trigger) -> None:
@@ -57,7 +70,7 @@ def _queryCommand(bot: SopelWrapper, trigger: Trigger) -> None:
 
 @plugin.commands('qpm', 'llmqpm')
 @plugin.example('.qpm|.llmqpm Some question about anything; I will reply to you in a private message')
-@plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
+@plugin.output_prefix(_PLUGIN_OUTPUT_PREFIX)
 @plugin.require_account(message = 'You must be a registered  to use this command.', reply = True)
 @plugin.thread(True)
 def _queryCommandPrivateMessage(bot: SopelWrapper, trigger: Trigger) -> None:
@@ -71,7 +84,7 @@ def _queryCommandPrivateMessage(bot: SopelWrapper, trigger: Trigger) -> None:
 
 @plugin.commands('mver')
 @plugin.example(".mver displays the current 'bot version")
-@plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
+@plugin.output_prefix(_PLUGIN_OUTPUT_PREFIX)
 @plugin.require_account(message = 'You must be a registered  to use this command.', reply = True)
 @plugin.thread(True)
 def _versionCommand(bot: SopelWrapper, trigger: Trigger) -> None:
@@ -80,7 +93,7 @@ def _versionCommand(bot: SopelWrapper, trigger: Trigger) -> None:
 
 @plugin.commands('models')
 @plugin.example('.models - lists the models available')
-@plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
+@plugin.output_prefix(_PLUGIN_OUTPUT_PREFIX)
 @plugin.require_account(message = 'You must be a registered  to use this command.', reply = True)
 @plugin.thread(True)
 def _modelsCommand(bot: SopelWrapper, trigger: Trigger) -> None:
@@ -93,7 +106,7 @@ def _modelsCommand(bot: SopelWrapper, trigger: Trigger) -> None:
 
 @plugin.commands('setmodel')
 @plugin.example('.setmodel 3 Sets the LLM to option 3 from the models list')
-@plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
+@plugin.output_prefix(_PLUGIN_OUTPUT_PREFIX)
 @plugin.require_account(message = 'You must be a registered  to use this command.', reply = True)
 @plugin.thread(True)
 def _setModelCommand(bot: SopelWrapper, trigger: Trigger) -> None:
@@ -107,22 +120,22 @@ def _setModelCommand(bot: SopelWrapper, trigger: Trigger) -> None:
         bot.reply(message.format(bot.config.core.help_prefix))
     else:
         effectiveModelID = modelID-1
-        effectiveModel = setModelForUser(effectiveModelID, trigger.nick, USER_DB_FILE)
+        effectiveModel = setModelForUser(effectiveModelID, trigger.nick, _USER_DB_FILE)
         bot.reply('All your future interactions will use the %s model.' % effectiveModel)
 
 
 @plugin.commands('getmodel')
 @plugin.example('.getmodel Get the model used in your queries')
-@plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
+@plugin.output_prefix(_PLUGIN_OUTPUT_PREFIX)
 @plugin.require_account(message = 'You must be a registered  to use this command.', reply = True)
 @plugin.thread(True)
 def _getModelCommand(bot: SopelWrapper, trigger: Trigger) -> None:
-    bot.reply(getModelForUser(trigger.nick, USER_DB_FILE))
+    bot.reply(getModelForUser(trigger.nick, _USER_DB_FILE))
 
 
 @plugin.commands('mymodel')
 @plugin.example('.mymodel [n] Get or set the model used in your queries; n ::= intefer, see .models for value range for n')
-@plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
+@plugin.output_prefix(_PLUGIN_OUTPUT_PREFIX)
 @plugin.require_account(message = 'You must be a registered  to use this command.', reply = True)
 @plugin.thread(True)
 def _myModelCommand(bot: SopelWrapper, trigger: Trigger) -> None:
@@ -134,7 +147,7 @@ def _myModelCommand(bot: SopelWrapper, trigger: Trigger) -> None:
 
 @plugin.commands('bug', 'feature', 'req')
 @plugin.example('.bug|.feature|.req Displays the URL for opening a GitHub issues request')
-@plugin.output_prefix(PLUGIN_OUTPUT_PREFIX)
+@plugin.output_prefix(_PLUGIN_OUTPUT_PREFIX)
 @plugin.require_account(message = 'You must be a registered  to use this command.', reply = True)
 @plugin.thread(True)
 def _reqCommand(bot: SopelWrapper, trigger: Trigger) -> None:

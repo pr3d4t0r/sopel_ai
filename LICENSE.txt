@@ -1,4 +1,4 @@
-BSD 3-Clause License
+sopel_ai BSD 3-Clause License
 
 SopelAI - Copyright (c) 2024, pr3d4t0r / Eugene Ciurana
 
