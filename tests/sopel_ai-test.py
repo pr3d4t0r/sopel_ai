@@ -90,10 +90,23 @@ def test_runQueryForUser(testDatabasePath):
     result = runQuery(query, nick, fileNameDB = testDatabasePath)
     assert result
 
+
+def test_runQueryResponseLength(testDatabasePath):
+    nick = 'alice'
+    query = "Summarize the Three Laws of Robotics, items only, no additional information"
+    shortResult = runQuery(query, nick, fileNameDB = testDatabasePath)
+    query = "Summarize Assimov's Three Laws of Robotics"
+    longResult = runQuery(query, nick, fileNameDB = testDatabasePath, responseLength = 12*1024)
+
+    p = len(shortResult)
+    q = len(longResult)
+    assert p < q
+
+
 # For the testing in the debugger
 # databasePath = mkstemp(suffix = '.json', text = True)[1]
 # test_runQuery(databasePath)
 # test_setModelForUser(databasePath)
 # test_getModelForUser(databasePath)
-# test_runQueryForUser()
+# test_runQueryResponseLength(databasePath)
 

@@ -1,4 +1,4 @@
-% sopel_ai(1) Version 1.0.11 chatbot plugin
+% sopel_ai(1) Version 1.0.12 chatbot plugin
 
 Name
 ====
@@ -54,6 +54,15 @@ Listed in order of frequency of use:
 |`.req`|n/a|Return the GitHub URL for Sopel AI feature requests|
 |`.bug`|n/a|Same as `.req`|
 
+Other available commands if the standard Sopen infobot plugins are enabled:
+
+|Command|Arguments|Effect|
+|-------|---------|------|
+|`.search`|Some question|Search using Bing or DuckDuckGo|
+|`.dict`|Word|Get a dictionary definition if one is available|
+|`.tr`|Word of phrase|Translate to English|
+|`.w`|Word or topic|Search Wikipedia for articles|
+
 
 Usage
 =====
@@ -71,7 +80,7 @@ The bot produces a numbered list of supported models by issuing:
 `.models`
 
 Users are welcome to change the default model to one of those listed by issuing
-the `.model` command followed by the item number for the desired model from the
+the `.mymodel` command followed by the item number for the desired model from the
 list:
 
 `.mymodel 1`
@@ -112,6 +121,7 @@ See also
 ========
 - Sopel AI API documentation at https://pr3d4t0r.github.io/sopel_ai
 - PerplexiPy high level API interface to Perplexity AI https://pypi.org/project/perplexipy
+- Sopel commands:  https://sopel.chat/usage/commands/
 - Sopel bot home page:  https://sopel.chat/
 
 
