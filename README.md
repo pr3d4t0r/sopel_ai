@@ -1,4 +1,4 @@
-% sopel_ai(1) Version 1.0.12 chatbot plugin
+% sopel_ai(1) Version 1.0.13 chatbot plugin
 
 Name
 ====
@@ -60,7 +60,7 @@ Other available commands if the standard Sopen infobot plugins are enabled:
 |-------|---------|------|
 |`.search`|Some question|Search using Bing or DuckDuckGo|
 |`.dict`|Word|Get a dictionary definition if one is available|
-|`.tr`|Word of phrase|Translate to English|
+|`.tr`|Word or phrase|Translate to English|
 |`.w`|Word or topic|Search Wikipedia for articles|
 
 
