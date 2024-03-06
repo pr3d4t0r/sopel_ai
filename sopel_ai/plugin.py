@@ -66,7 +66,7 @@ def _queryCommand(bot: SopelWrapper, trigger: Trigger) -> None:
         return
 
     # TODO:  Log this
-    bot.reply(runQuery(trigger.group(2), trigger.nick))
+    bot.reply(runQuery(trigger.group(2), trigger.nick, fileNameDB = _USER_DB_FILE))
 
 
 @plugin.commands('qpm', 'llmqpm')
@@ -80,7 +80,7 @@ def _queryCommandPrivateMessage(bot: SopelWrapper, trigger: Trigger) -> None:
         bot.reply('No search term. Usage: {}qpm Some question about anything'.format(bot.config.core.help_prefix))
         return
 
-    bot.say(runQuery(trigger.group(2), trigger.nick), trigger.nick, responseLength = _PRIVATE_MESSAGE_RESPONSE_LENGTH)
+    bot.say(runQuery(trigger.group(2), trigger.nick), trigger.nick, fileNameDB = _USER_DB_FILE, responseLength = _PRIVATE_MESSAGE_RESPONSE_LENGTH)
 
 
 @plugin.commands('mver')
@@ -141,9 +141,9 @@ def _getModelCommand(bot: SopelWrapper, trigger: Trigger) -> None:
 @plugin.thread(True)
 def _myModelCommand(bot: SopelWrapper, trigger: Trigger) -> None:
     if not trigger.group(2):
-        _getModelCommand(bot, trigger)
+        _getModelCommand(bot, trigger, _USER_DB_FILE)
     else:
-        _setModelCommand(bot, trigger)
+        _setModelCommand(bot, trigger, _USER_DB_FILE)
 
 
 @plugin.commands('bug', 'feature', 'req')
