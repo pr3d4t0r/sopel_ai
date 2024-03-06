@@ -141,9 +141,9 @@ def _getModelCommand(bot: SopelWrapper, trigger: Trigger) -> None:
 @plugin.thread(True)
 def _myModelCommand(bot: SopelWrapper, trigger: Trigger) -> None:
     if not trigger.group(2):
-        _getModelCommand(bot, trigger, _USER_DB_FILE)
+        _getModelCommand(bot, trigger)
     else:
-        _setModelCommand(bot, trigger, _USER_DB_FILE)
+        _setModelCommand(bot, trigger)
 
 
 @plugin.commands('bug', 'feature', 'req')

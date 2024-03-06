@@ -1,4 +1,4 @@
-% sopel_ai(1) Version 1.0.13 chatbot plugin
+% sopel_ai(1) Version 1.0.14 chatbot plugin
 
 Name
 ====
@@ -107,7 +107,7 @@ Sopel AI uses one environment variable and two mechanisms for resolving it:
 
 `export PERPLEXITY_API_KEY="pplx-2a45baaf"`
 
-Or use the `.env` file to store this and other secretes.  The underlying
+Or use the `.env` file to store this and other secrets.  The underlying
 PerplexiPy module uses `dotenv` package for secrets resolution.
 
 
