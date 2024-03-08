@@ -64,72 +64,75 @@ sopel_ai    </h1>
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="c1"># See:  https://raw.githubcontent.com/pr3d4t0r/sopel_ai/master/LICENSE.txt</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a>
 </span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="n">__VERSION__</span> <span class="o">=</span> <span class="s1">&#39;1.0.14&#39;</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">@public</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="n">__moduleInfo__</span> <span class="o">=</span> <span class="s1">&#39;module info&#39;</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="kn">import</span> <span class="nn">importlib.metadata</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="n">__VERSION__</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="s1">&#39;sopel-ai&#39;</span><span class="p">)</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">@public</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">@public</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">The sopel_ai core functions have no dependencies on the Sopel API and may be</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">invoked from any stand-alone program or from other plugins.  The only</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">prerrequisite is that a valid LLM provider is defined.</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">**Perplexity AI** is the default provider for this version.</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="n">__moduleInfo__</span> <span class="o">=</span> <span class="s1">&#39;module info&#39;</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">@public</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">The sopel_ai core functions have no dependencies on the Sopel API and may be</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">invoked from any stand-alone program or from other plugins.  The only</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="sd">prerrequisite is that a valid LLM provider is defined.</span>
 </span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">---</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="sd">### Users manual</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">**Perplexity AI** is the default provider for this version.</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>
 </span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">The instructions on how to install sopel_ai and the commands list are available</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">in the &lt;a href=&#39;https://github.com/pr3d4t0r/sopel_ai/&#39; target=&#39;_blank&#39;&gt;sopel_ai README.md&lt;/a&gt;</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="sd">file.  If sopel_ai was installed through Homebrew, apt, or other package manager</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="sd">the documentation is available as a manpage via `man sopel_ai`.</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="sd">---</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="sd">### Resources</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">---</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">### Users manual</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="sd">The instructions on how to install sopel_ai and the commands list are available</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="sd">in the &lt;a href=&#39;https://github.com/pr3d4t0r/sopel_ai/&#39; target=&#39;_blank&#39;&gt;sopel_ai README.md&lt;/a&gt;</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="sd">file.  If sopel_ai was installed through Homebrew, apt, or other package manager</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="sd">the documentation is available as a manpage via `man sopel_ai`.</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>
 </span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="sd">- **&lt;a href=&#39;https://github.com/pr3d4t0r/sopel_ai/&#39; target=&#39;_blank&#39;&gt;sopel_ai GitHub repository&lt;/a&gt;**</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="sd">- &lt;a href=&#39;https://www.perplexity.ai&#39; target=&#39;_blank&#39;&gt;Perplexity AI&lt;/a&gt;</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="sd">-  **&lt;a href=&#39;https://pypi.org/project/perplexipy&#39; target=&#39;_blank&#39;&gt;PerplexiPy&lt;/a&gt;** on PyPi</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="sd">- The **&lt;a href=&#39;https://sopel.chat&#39; target=&#39;_blank&#39;&gt;Sopel&lt;/a&gt;** bot documentation</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="sd">---</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="sd">### License</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="sd">---</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="sd">### Resources</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="sd">- **&lt;a href=&#39;https://github.com/pr3d4t0r/sopel_ai/&#39; target=&#39;_blank&#39;&gt;sopel_ai GitHub repository&lt;/a&gt;**</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="sd">- &lt;a href=&#39;https://www.perplexity.ai&#39; target=&#39;_blank&#39;&gt;Perplexity AI&lt;/a&gt;</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="sd">-  **&lt;a href=&#39;https://pypi.org/project/perplexipy&#39; target=&#39;_blank&#39;&gt;PerplexiPy&lt;/a&gt;** on PyPi</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="sd">- The **&lt;a href=&#39;https://sopel.chat&#39; target=&#39;_blank&#39;&gt;Sopel&lt;/a&gt;** bot documentation</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>
 </span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="sd">The **Sopel AI** Sopel plug-in, package, documentation, and examples are</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="sd">licensed under the &lt;a href=&#39;https://github.com/pr3d4t0r/sopel_ai/blob/master/LICENSE.txt&#39; target=&#39;_blank&#39;&gt;BSD-3 open source license&lt;/a&gt;.</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="sd">---</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="sd">### License</span>
 </span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="sd">---</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">### Implementation</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="sd">The **Sopel AI** Sopel plug-in, package, documentation, and examples are</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="sd">licensed under the &lt;a href=&#39;https://github.com/pr3d4t0r/sopel_ai/blob/master/LICENSE.txt&#39; target=&#39;_blank&#39;&gt;BSD-3 open source license&lt;/a&gt;.</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>
 </span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">The `core` module is the main funcionality provider for this API.  The other</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">modules support operations in `core` or for interacting with the bot.</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">---</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">### Implementation</span>
 </span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="sd">The `plugin` module defines the sopel_ai bot commands and integrates them with</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="sd">the bot.  It&#39;s not documented here because its functionality is considered to</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="sd">be internal use only, and subject to change in response to changes to Sopel.</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">Those changes are independent of the sopel_ai core functionality.</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="sd">---</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="sd">### User database</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="sd">The `core` module is the main funcionality provider for this API.  The other</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="sd">modules support operations in `core` or for interacting with the bot.</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">The `plugin` module defines the sopel_ai bot commands and integrates them with</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">the bot.  It&#39;s not documented here because its functionality is considered to</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">be internal use only, and subject to change in response to changes to Sopel.</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="sd">Those changes are independent of the sopel_ai core functionality.</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>
 </span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="sd">Users can customize which LLM they use for their query.  `runQuery()` will use</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="sd">a different model to produce responses for users `alice` and `bob` if each set</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a><span class="sd">a desired model using the `setModelForUser()` function.  Values are stored</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a><span class="sd">in a JSON document database referenced by the `fileNameDB` variable in the</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a><span class="sd">calls to these functions.  The `DEFAULT_LLM` will be used if a user didn&#39;t</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a><span class="sd">change the model choice.</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a><span class="sd">There are no restrictions on where `fileNameDB` can exist in the file system.</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a><span class="sd">This implementation defaults to `$HOME/.sopel/sopel_ai-DB.json`, future versions</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a><span class="sd">may use the `appdir` module instead.</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="sd">---</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="sd">### User database</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a><span class="sd">Users can customize which LLM they use for their query.  `runQuery()` will use</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a><span class="sd">a different model to produce responses for users `alice` and `bob` if each set</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a><span class="sd">a desired model using the `setModelForUser()` function.  Values are stored</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a><span class="sd">in a JSON document database referenced by the `fileNameDB` variable in the</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a><span class="sd">calls to these functions.  The `DEFAULT_LLM` will be used if a user didn&#39;t</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a><span class="sd">change the model choice.</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a><span class="sd">There are no restrictions on where `fileNameDB` can exist in the file system.</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a><span class="sd">This implementation defaults to `$HOME/.sopel/sopel_ai-DB.json`, future versions</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a><span class="sd">may use the `appdir` module instead.</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span></pre></div>
 
 
@@ -137,7 +140,7 @@ sopel_ai    </h1>
                 <section id="__VERSION__">
                     <div class="attr variable">
             <span class="name">__VERSION__</span>        =
-<span class="default_value">&#39;1.0.14&#39;</span>
+<span class="default_value">&#39;1.1.0&#39;</span>
 
         
     </div>

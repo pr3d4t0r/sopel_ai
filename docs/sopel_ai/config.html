@@ -39,6 +39,9 @@
                                 <a class="variable" href="#SopelAISection.llm_engine">llm_engine</a>
                         </li>
                         <li>
+                                <a class="variable" href="#SopelAISection.llm_key">llm_key</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#SopelAISection.llm_provider">llm_provider</a>
                         </li>
                         <li>
@@ -74,17 +77,19 @@
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="c1"># See:  https://raw.githubcontent.com/pr3d4t0r/sopel_ai/master/LICENSE.txt</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a>
 </span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="kn">from</span> <span class="nn">sopel</span> <span class="kn">import</span> <span class="n">config</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="kn">from</span> <span class="nn">sopel_ai.core</span> <span class="kn">import</span> <span class="n">DEFAULT_LLM</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="kn">from</span> <span class="nn">sopel_ai.core</span> <span class="kn">import</span> <span class="n">DEFAULT_LLM_PROVIDER</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="kn">from</span> <span class="nn">sopel_ai.core</span> <span class="kn">import</span> <span class="n">DEFAULT_LLM_SERVICE</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="kn">from</span> <span class="nn">sopel_ai.core</span> <span class="kn">import</span> <span class="n">DEFAULT_LOG_LEVEL</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
+</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="kn">from</span> <span class="nn">sopel_ai.core</span> <span class="kn">import</span> <span class="n">DEFAULT_API_KEY</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="kn">from</span> <span class="nn">sopel_ai.core</span> <span class="kn">import</span> <span class="n">DEFAULT_LLM</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="kn">from</span> <span class="nn">sopel_ai.core</span> <span class="kn">import</span> <span class="n">DEFAULT_LLM_PROVIDER</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="kn">from</span> <span class="nn">sopel_ai.core</span> <span class="kn">import</span> <span class="n">DEFAULT_LLM_SERVICE</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="kn">from</span> <span class="nn">sopel_ai.core</span> <span class="kn">import</span> <span class="n">DEFAULT_LOG_LEVEL</span>
 </span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="k">class</span> <span class="nc">SopelAISection</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">StaticSection</span><span class="p">):</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>    <span class="n">llm_engine</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;llm_engine&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LLM</span><span class="p">)</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>    <span class="n">llm_provider</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;llm_provider&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LLM_PROVIDER</span><span class="p">)</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>    <span class="n">llm_service</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;llm_service&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LLM_SERVICE</span><span class="p">)</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>    <span class="n">logLevel</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;logLevel&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LOG_LEVEL</span><span class="p">)</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="k">class</span> <span class="nc">SopelAISection</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">StaticSection</span><span class="p">):</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>    <span class="n">llm_engine</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;llm_engine&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LLM</span><span class="p">)</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>    <span class="n">llm_key</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;llm_key&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_API_KEY</span><span class="p">,</span> <span class="n">is_secret</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>    <span class="n">llm_provider</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;llm_provider&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LLM_PROVIDER</span><span class="p">)</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>    <span class="n">llm_service</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;llm_service&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LLM_SERVICE</span><span class="p">)</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>    <span class="n">logLevel</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;logLevel&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LOG_LEVEL</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -100,11 +105,12 @@
 
     </div>
     <a class="headerlink" href="#SopelAISection"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SopelAISection-11"><a href="#SopelAISection-11"><span class="linenos">11</span></a><span class="k">class</span> <span class="nc">SopelAISection</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">StaticSection</span><span class="p">):</span>
-</span><span id="SopelAISection-12"><a href="#SopelAISection-12"><span class="linenos">12</span></a>    <span class="n">llm_engine</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;llm_engine&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LLM</span><span class="p">)</span>
-</span><span id="SopelAISection-13"><a href="#SopelAISection-13"><span class="linenos">13</span></a>    <span class="n">llm_provider</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;llm_provider&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LLM_PROVIDER</span><span class="p">)</span>
-</span><span id="SopelAISection-14"><a href="#SopelAISection-14"><span class="linenos">14</span></a>    <span class="n">llm_service</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;llm_service&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LLM_SERVICE</span><span class="p">)</span>
-</span><span id="SopelAISection-15"><a href="#SopelAISection-15"><span class="linenos">15</span></a>    <span class="n">logLevel</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;logLevel&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LOG_LEVEL</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SopelAISection-12"><a href="#SopelAISection-12"><span class="linenos">12</span></a><span class="k">class</span> <span class="nc">SopelAISection</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">StaticSection</span><span class="p">):</span>
+</span><span id="SopelAISection-13"><a href="#SopelAISection-13"><span class="linenos">13</span></a>    <span class="n">llm_engine</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;llm_engine&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LLM</span><span class="p">)</span>
+</span><span id="SopelAISection-14"><a href="#SopelAISection-14"><span class="linenos">14</span></a>    <span class="n">llm_key</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;llm_key&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_API_KEY</span><span class="p">,</span> <span class="n">is_secret</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</span><span id="SopelAISection-15"><a href="#SopelAISection-15"><span class="linenos">15</span></a>    <span class="n">llm_provider</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;llm_provider&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LLM_PROVIDER</span><span class="p">)</span>
+</span><span id="SopelAISection-16"><a href="#SopelAISection-16"><span class="linenos">16</span></a>    <span class="n">llm_service</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;llm_service&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LLM_SERVICE</span><span class="p">)</span>
+</span><span id="SopelAISection-17"><a href="#SopelAISection-17"><span class="linenos">17</span></a>    <span class="n">logLevel</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ValidatedAttribute</span><span class="p">(</span><span class="s1">&#39;logLevel&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">DEFAULT_LOG_LEVEL</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -135,6 +141,33 @@ Python will work just fine.</p>
         
     </div>
     <a class="headerlink" href="#SopelAISection.llm_engine"></a>
+    
+            <div class="docstring"><p>A descriptor for settings in a <code>StaticSection</code>.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<ul>
+<li><strong>str name</strong>:  the attribute name to use in the config file</li>
+<li><strong>parse</strong>:  a function to be used to read the string and create the
+appropriate object (optional; the string value will be
+returned as-is if not set)</li>
+<li><strong>serialize</strong>:  a function that, given an object, should return a string
+that can be written to the config file safely (optional;
+defaults to <code>str</code>)</li>
+<li><strong>bool is_secret</strong>:  <code>True</code> when the attribute should be considered
+a secret, like a password (default to <code>False</code>)</li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="SopelAISection.llm_key" class="classattr">
+                                <div class="attr variable">
+            <span class="name">llm_key</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SopelAISection.llm_key"></a>
     
             <div class="docstring"><p>A descriptor for settings in a <code>StaticSection</code>.</p>
 

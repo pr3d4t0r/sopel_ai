@@ -1,14 +1,14 @@
 # See:  https://raw.githubusercontent.com/pr3d4t0r/sopel_ai/master/LICENSE.txt
 
 
-from sopel_ai.errors import M0tokoError
+from sopel_ai.errors import SopelAIError
 
 
 # +++ tests +++
 
-def test_M0tokoError():
+def test_SopelAIError():
     message = 'This is an error message'
-    e = M0tokoError(message)
+    e = SopelAIError(message)
 
     try:
         raise e
