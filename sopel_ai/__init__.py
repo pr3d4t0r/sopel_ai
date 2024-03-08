@@ -1,7 +1,10 @@
 # See:  https://raw.githubcontent.com/pr3d4t0r/sopel_ai/master/LICENSE.txt
 
 
-__VERSION__ = '1.0.14'
+import importlib.metadata
+
+
+__VERSION__ = importlib.metadata.version('sopel-ai')
 """
 @public
 """
