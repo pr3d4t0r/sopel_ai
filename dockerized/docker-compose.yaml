@@ -1,0 +1,13 @@
+# See:  https://raw.githubusercontent.com/pr3d4t0r/sopel_ai/master/LICENSE.txt
+
+version: '3'
+
+
+services:
+    sopel_service:
+        container_name: 'sopel'
+        image: 'pr3d4t0r/sopel_ai:latest'
+        privileged: true
+        volumes:
+            - ./sopel_ai_data:/home/sopel_ai
+
