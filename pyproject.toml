@@ -37,6 +37,7 @@ keywords = [
     'plugin',
     'sopel'
 ]
+license = { text = 'BSD-3-Clause' }
 name = 'sopel-ai'
 readme = 'README.md'
 requires-python = '>=3.9'
