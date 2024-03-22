@@ -1,4 +1,4 @@
-% sopel_ai(1) Version 1.1.0 chatbot plugin
+% sopel_ai(1) Version 1.1.1 chatbot plugin
 
 Name
 ====
@@ -124,6 +124,52 @@ Or edit this section in the Sopel configuration file:
 .
 llm_key = pplx-3a45enteryourkeykere
 ```
+
+
+Docker
+======
+Sopel AI is dockerized and available from Docker Hub as pr3d4t0r/sopel_ai.  The
+version tag is the same as the latest version number for Sopel AI.
+
+The examples in this section assume execution from the local file system.  Adapt
+as needed to run in a Kubernets cluster or other deployment method.
+
+
+### First time
+
+The Sopel + AI configuration file must be created:
+
+```bash
+docker run -ti -v ${HOME}/sopel_ai_data:/home/sopel_ai \
+    pr3d4t0r/sopel_ai:latest \
+    sopel configure
+```
+
+The API key and other relevant configuration data must be provided at this time.
+`$HOME/sopel_ai_data` is volume mapped to the container's `/home/sopel_ai/.sopel
+directory.  Ensure that your host has write permissions in the shared volume.
+
+The `pr3d4t0r/sopel_ai:latest` image is used if no version is specified.  The
+image update policy is left to the sysops and is not automatic.
+
+Once `$HOME/sopel_ai_data` exists it's possible to copy the contents of a
+different `~/.sopel` directory to it and use is as the configuration and Sopel
+AI database store.
+
+
+### Starting Sopel AI
+
+A Docker Compose file is provided as an example of how to start the service,
+<a href='./dockerized/docker-compose.yaml' target='_blank'>docker-file.yaml</a>.  With this Docker Compose
+file in the current directory, start the service with:
+
+```bash
+docker-compose up [-d] sopel_ai
+
+```
+
+The `-d` parameter daemonizes the service.  Without it, the service will start
+and display its output in the current console.
 
 
 License

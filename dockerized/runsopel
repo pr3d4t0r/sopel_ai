@@ -1,0 +1,40 @@
+#!/bin/bash
+# See:  https://raw.githubusercontent.com/pr3d4t0r/sopel_ai/master/LICENSE.txt
+
+
+# +++ constants +++
+
+SOPEL_CONFIG_DIR="$HOME/.sopel"
+SOPEL_CONFIG_FILE="$SOPEL_CONFIG_DIR/default.cfg"
+
+
+# +++ main +++
+
+assertConfigExists() {
+    if [[ ! -e "$SOPEL_CONFIG_FILE" ]]
+    then
+        cat <<EOF
+User:  $(whoami) at $(pwd)
+$SOPEL_CONFIG_FILE configuration missing.
+
+Have your API key and run this command:
+
+docker run -ti -v ./sopel_ai_data:/home/sopel_ai pr3d4t0r/sopel_ai:latest sopel configure
+
+Then edit this file to configure the authentication method and other properties
+specific to your IRC network:
+
+./sopel_ai_data/.sopel/default.cfg
+
+EOF
+        exit 1
+    fi
+} # assertConfigExists
+
+
+# TODO:  Deprecate this if present after 20240501:
+# assertConfigExists
+mkdir -p "$SOPEL_CONFIG_DIR" || echo "creating $SOPEL_CONFIG_DIR failed"
+touch "$SOPEL_CONFIG_DIR/bubbuleh.dat"
+/usr/local/bin/sopel
+

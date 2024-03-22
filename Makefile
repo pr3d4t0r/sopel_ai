@@ -22,6 +22,7 @@ all: ALWAYS
 	make manpage
 	make docs
 	make package
+	make dockerized
 
 
 clean:
@@ -42,6 +43,15 @@ devpi:
 	devpi use $(DEVPI_USER)/dev
 	devpi -v use --set-cfg $(DEVPI_USER)/dev
 	@[[ -e "pip.conf-bak" ]] && rm -f "pip.conf-bak"
+
+
+dockerized: ALWAYS
+	make -C "./dockerized" PACKAGE=$(PACKAGE) VERSION=$(VERSION) image
+	@echo && docker images | grep "$(PACKAGE)\|REPOSITORY"
+
+
+dockerpush: ALWAYS
+	make -C "./dockerized" PACKAGE=$(PACKAGE) VERSION=$(VERSION) push
 
 
 docs: ALWAYS
@@ -78,10 +88,11 @@ package:
 	python -m build -wn
 
 
-# The publish: target is for PyPI, not for the devpi server.
+# The publish: target is for PyPI and Docker Hub, not for the devpi server.
 publish:
 	twine --no-color check $(DIST)/*
 	twine --no-color upload --verbose $(DIST)/*
+	make dockerpush
 
 
 refresh: ALWAYS
