@@ -160,7 +160,7 @@ AI database store.
 ### Starting Sopel AI
 
 A Docker Compose file is provided as an example of how to start the service,
-`<a href='./dockerized/docker-compose.yaml' target='_blank'>docker-file.yaml</a>'.  With this Docker Compose
+`<a href='./dockerized/docker-compose.yaml' target='_blank'>docker-file.yaml</a>`.  With this Docker Compose
 file in the current directory, start the service with:
 
 ```bash
