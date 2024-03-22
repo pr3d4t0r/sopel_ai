@@ -14,5 +14,5 @@ USER                sopel_ai
 WORKDIR             /home/sopel_ai
 # TODO:
 # https://sopel.chat/docs/cli.html#supported-environment-variables
-CMD                 /usr/local/bin/sopel
+CMD                 /usr/local/bin/runsopel
 

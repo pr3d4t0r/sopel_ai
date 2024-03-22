@@ -31,6 +31,10 @@ EOF
     fi
 } # assertConfigExists
 
-assertConfigExists
+
+# TODO:  Deprecate this if present after 20240501:
+# assertConfigExists
+mkdir -p "$SOPEL_CONFIG_DIR" || echo "creating $SOPEL_CONFIG_DIR failed"
+touch "$SOPEL_CONFIG_DIR/bubbuleh.dat"
 /usr/local/bin/sopel
 
