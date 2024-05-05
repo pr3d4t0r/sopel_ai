@@ -88,6 +88,10 @@ package:
 	python -m build -wn
 
 
+prune:
+	for f in $$(git branch | awk '!/master/ && !/main/ && !/^\\*/'); do git branch -d "$$f"; done
+
+
 # The publish: target is for PyPI and Docker Hub, not for the devpi server.
 publish:
 	twine --no-color check $(DIST)/*
