@@ -22,7 +22,6 @@ all: ALWAYS
 	make manpage
 	make docs
 	make package
-	make dockerized
 
 
 clean:
@@ -89,14 +88,13 @@ package:
 
 
 prune:
-	for f in $$(git branch | awk '!/master/ && !/main/ && !/^\\*/'); do git branch -d "$$f"; done
+	for f in $$(git branch | awk '!/master/ && !/main/ && !/^\*/ { print; }'); do git branch -d "$$f"; done
 
 
 # The publish: target is for PyPI and Docker Hub, not for the devpi server.
 publish:
 	twine --no-color check $(DIST)/*
 	twine --no-color upload --verbose $(DIST)/*
-	make dockerpush
 
 
 refresh: ALWAYS

@@ -73,8 +73,9 @@ def test_setModelForUser(testDatabasePath, testAPIKey):
     assert model == modelsList(key = testAPIKey)[0]
 
     # Existing user:
-    model = setModelForUser(6, 'alice', testDatabasePath, testAPIKey)
-    assert model == modelsList(key = testAPIKey)[6]
+    lastModel = len(modelsList(testAPIKey))-1
+    model = setModelForUser(lastModel, 'alice', testDatabasePath, testAPIKey)
+    assert model == modelsList(key = testAPIKey)[lastModel]
 
     # Model out of range:
     with pytest.raises(SopelAIError):
@@ -111,11 +112,11 @@ def test_runQueryResponseLength(testDatabasePath, testAPIKey):
 
 
 # For the testing in the debugger
-# databasePath = mkstemp(suffix = '.json', text = True)[1]
-# configfilename = os.path.join(os.environ['HOME'], '.sopel/default.cfg')
-# key = Config(configfilename).sopel_ai.llm_key
+databasePath = mkstemp(suffix = '.json', text = True)[1]
+configfilename = os.path.join(os.environ['HOME'], '.sopel/default.cfg')
+key = Config(configfilename).sopel_ai.llm_key
 # test_runQuery(databasePath, key)
-# test_setModelForUser(databasePath, key)
+test_setModelForUser(databasePath, key)
 # # test_getModelForUser(databasePath)
 # # test_runQueryResponseLength(databasePath)
 #

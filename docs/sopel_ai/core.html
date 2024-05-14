@@ -145,203 +145,204 @@
 </span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>
 </span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">_database</span><span class="p">:</span>
 </span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>        <span class="n">_database</span> <span class="o">=</span> <span class="n">TinyDB</span><span class="p">(</span><span class="n">fileName</span><span class="p">)</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>
-</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>    <span class="k">return</span> <span class="n">_database</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>        <span class="n">_database</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;_default&#39;</span><span class="p">,</span> <span class="n">cache_size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>
+</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>    <span class="k">return</span> <span class="n">_database</span>
 </span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>
-</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a><span class="k">def</span> <span class="nf">_checkClientInstance</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>    <span class="k">global</span> <span class="n">_client</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>
-</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">_client</span><span class="p">:</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>        <span class="n">_client</span> <span class="o">=</span> <span class="n">PerplexityClient</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="p">,</span> <span class="n">endpoint</span> <span class="o">=</span> <span class="n">PERPLEXITY_API_URL</span><span class="p">)</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>        <span class="n">_client</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">PERPLEXITY_DEFAULT_MODEL</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>
+</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a><span class="k">def</span> <span class="nf">_checkClientInstance</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>    <span class="k">global</span> <span class="n">_client</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>
+</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">_client</span><span class="p">:</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>        <span class="n">_client</span> <span class="o">=</span> <span class="n">PerplexityClient</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="p">,</span> <span class="n">endpoint</span> <span class="o">=</span> <span class="n">PERPLEXITY_API_URL</span><span class="p">)</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>        <span class="n">_client</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">PERPLEXITY_DEFAULT_MODEL</span>
 </span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>
-</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a><span class="k">def</span> <span class="nf">runQuery</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nick</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">responseLength</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">MAX_RESPONSE_LENGTH</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="sd">    Run a query against the LLM engine using the PerplexipyClient, and return the</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="sd">    query result in a string.</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>
-</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="sd">    Arguments</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="sd">    ---------</span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a><span class="sd">        query</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="sd">    A string with query from `nick` in English, Spanish, Russian, French, or any</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a><span class="sd">    other mainstream language.</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>
-</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a><span class="sd">        nick</span>
-</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="sd">    The nick on whose behalf this query will run.  The plug-in caches specific</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="sd">    clients for users who requested to use a specific model.</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="sd">        fileNameDB</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="sd">    The path to the database in the file system.  Can be absolute or relative.</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>
-</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="sd">        responseLength</span>
-</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a><span class="sd">    The maximum response length requested from the AI provider.  See `MAX_RESPONSE_LENGTH`.</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a><span class="sd">        key</span>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="sd">    The LLM service provider API key.</span>
-</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a><span class="sd">    Returns</span>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a><span class="sd">    -------</span>
-</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a><span class="sd">    A string with the response if the service found a reasonable and convenient</span>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a><span class="sd">    one, or the text of an Error and the possible cause, as reported by the</span>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a><span class="sd">    Python run-time.</span>
-</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="sd">    Raises</span>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="sd">    ------</span>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="sd">    `SopelAIError` if the `key` is empty or if the query is invalid.  The string</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="sd">    message in the error reflects the cause.</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="sd">    ---</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>    <span class="n">_checkDB</span><span class="p">(</span><span class="n">fileNameDB</span><span class="p">)</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="n">getModelForUser</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">nick</span> <span class="ow">or</span> <span class="n">model</span> <span class="o">==</span> <span class="n">DEFAULT_LLM</span><span class="p">:</span>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>        <span class="n">_checkClientInstance</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">_client</span>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">_clientCache</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span>
-</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>    <span class="k">try</span><span class="p">:</span>
-</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">query</span><span class="p">:</span>
-</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>            <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;query parameter cannot be empty&#39;</span><span class="p">)</span>
-</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>        <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;Brief answer in </span><span class="si">%s</span><span class="s1"> characters or less to: &quot;</span><span class="si">%s</span><span class="s1">&quot;. Include one URL in the response and strip off all Markdown and hashtags.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">responseLength</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
-</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> = </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)),</span> <span class="n">e</span><span class="p">)</span>
-</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>
-</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>    <span class="k">return</span> <span class="n">result</span>
-</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>
+</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a><span class="k">def</span> <span class="nf">runQuery</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nick</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">responseLength</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">MAX_RESPONSE_LENGTH</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="sd">    Run a query against the LLM engine using the PerplexipyClient, and return the</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="sd">    query result in a string.</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="sd">    Arguments</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a><span class="sd">    ---------</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="sd">        query</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a><span class="sd">    A string with query from `nick` in English, Spanish, Russian, French, or any</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="sd">    other mainstream language.</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="sd">        nick</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="sd">    The nick on whose behalf this query will run.  The plug-in caches specific</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="sd">    clients for users who requested to use a specific model.</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="sd">        fileNameDB</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="sd">    The path to the database in the file system.  Can be absolute or relative.</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a><span class="sd">        responseLength</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="sd">    The maximum response length requested from the AI provider.  See `MAX_RESPONSE_LENGTH`.</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="sd">        key</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="sd">    The LLM service provider API key.</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a><span class="sd">    Returns</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a><span class="sd">    -------</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a><span class="sd">    A string with the response if the service found a reasonable and convenient</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a><span class="sd">    one, or the text of an Error and the possible cause, as reported by the</span>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="sd">    Python run-time.</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="sd">    Raises</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="sd">    ------</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="sd">    `SopelAIError` if the `key` is empty or if the query is invalid.  The string</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="sd">    message in the error reflects the cause.</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="sd">    ---</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>    <span class="n">_checkDB</span><span class="p">(</span><span class="n">fileNameDB</span><span class="p">)</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="n">getModelForUser</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">nick</span> <span class="ow">or</span> <span class="n">model</span> <span class="o">==</span> <span class="n">DEFAULT_LLM</span><span class="p">:</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>        <span class="n">_checkClientInstance</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">_client</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">_clientCache</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">query</span><span class="p">:</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>            <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;query parameter cannot be empty&#39;</span><span class="p">)</span>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>        <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;Brief answer in </span><span class="si">%s</span><span class="s1"> characters or less to: &quot;</span><span class="si">%s</span><span class="s1">&quot;. Include one URL in the response and strip off all Markdown and hashtags.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">responseLength</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> = </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)),</span> <span class="n">e</span><span class="p">)</span>
+</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>
+</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>    <span class="k">return</span> <span class="n">result</span>
 </span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>
-</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a><span class="k">def</span> <span class="nf">modelsList</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a><span class="sd">    Returns a list of all available models so that they can be used for</span>
-</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a><span class="sd">    requesting a specific one in another command.</span>
-</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>
-</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a><span class="sd">    Returns</span>
-</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a><span class="sd">    -------</span>
-</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a><span class="sd">    An ordered list of model names supported by the underlying API service.  The</span>
-</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a><span class="sd">    order depends on what the underlying API reports, and it&#39;s unlikely to</span>
-</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a><span class="sd">    change between calls.</span>
-</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>
-</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a><span class="sd">    Other SopelAI functions will use the index to refer to a model in the</span>
-</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a><span class="sd">    collection.</span>
-</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a>
-</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a><span class="sd">    Raises</span>
-</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a><span class="sd">    ------</span>
-</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a><span class="sd">    `SopelAIError` if the `key` is empty or if the query is invalid.  The string</span>
-</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a><span class="sd">    message in the error reflects the cause.</span>
-</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>
-</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a><span class="sd">    ---</span>
-</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
-</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
-</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>
-</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>    <span class="n">_checkClientInstance</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>
-</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">_client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
-</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>
+</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>
+</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a><span class="k">def</span> <span class="nf">modelsList</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a><span class="sd">    Returns a list of all available models so that they can be used for</span>
+</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a><span class="sd">    requesting a specific one in another command.</span>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a><span class="sd">    Returns</span>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a><span class="sd">    -------</span>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a><span class="sd">    An ordered list of model names supported by the underlying API service.  The</span>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a><span class="sd">    order depends on what the underlying API reports, and it&#39;s unlikely to</span>
+</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a><span class="sd">    change between calls.</span>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a><span class="sd">    Other SopelAI functions will use the index to refer to a model in the</span>
+</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a><span class="sd">    collection.</span>
+</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>
+</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a><span class="sd">    Raises</span>
+</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a><span class="sd">    ------</span>
+</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a><span class="sd">    `SopelAIError` if the `key` is empty or if the query is invalid.  The string</span>
+</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a><span class="sd">    message in the error reflects the cause.</span>
+</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>
+</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a><span class="sd">    ---</span>
+</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
+</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
+</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>
+</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>    <span class="n">_checkClientInstance</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>
+</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">_client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 </span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>
-</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a><span class="k">def</span> <span class="nf">versionInfo</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
-</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
-</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>
-</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>    <span class="n">_checkClientInstance</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a>    <span class="k">return</span> <span class="s1">&#39;sopel_ai v</span><span class="si">%s</span><span class="s1"> using </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">__VERSION__</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">_client</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span> <span class="n">_client</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]))</span>
-</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a>
+</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>
+</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a><span class="k">def</span> <span class="nf">versionInfo</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
+</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
+</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>
+</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a>    <span class="n">_checkClientInstance</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a>    <span class="k">return</span> <span class="s1">&#39;sopel_ai v</span><span class="si">%s</span><span class="s1"> using </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">__VERSION__</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">_client</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span> <span class="n">_client</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]))</span>
 </span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a>
-</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a><span class="k">def</span> <span class="nf">setModelForUser</span><span class="p">(</span><span class="n">modelID</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a><span class="sd">    Set the model associated with `modelID` for processing requests from `nick`.</span>
-</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a><span class="sd">    The `modelID` is the index into the `models` object returned by</span>
-</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a><span class="sd">    `sopel_ai.modelsList()`, from zero.</span>
-</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>
-</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a><span class="sd">    Arguments</span>
-</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a><span class="sd">    ---------</span>
-</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a><span class="sd">        modelID</span>
-</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a><span class="sd">    An integer corresponding to the model&#39;s occurrence in the models list.</span>
-</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a>
+</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>
+</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a><span class="k">def</span> <span class="nf">setModelForUser</span><span class="p">(</span><span class="n">modelID</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a><span class="sd">    Set the model associated with `modelID` for processing requests from `nick`.</span>
+</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a><span class="sd">    The `modelID` is the index into the `models` object returned by</span>
+</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a><span class="sd">    `sopel_ai.modelsList()`, from zero.</span>
+</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>
+</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a><span class="sd">    Arguments</span>
+</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a><span class="sd">    ---------</span>
+</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a><span class="sd">        modelID</span>
+</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a><span class="sd">    An integer corresponding to the model&#39;s occurrence in the models list.</span>
 </span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a>
-</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a><span class="sd">        nick</span>
-</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a><span class="sd">    A string corresponding to a  nick.</span>
-</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a>
-</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a><span class="sd">        fileNameDB</span>
-</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a><span class="sd">    The path to the database in the file system.  Can be absolute or relative.</span>
-</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a>
-</span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a><span class="sd">        key</span>
-</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a><span class="sd">    The LLM service provider API key.</span>
-</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a>
-</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a><span class="sd">    The function assumes that `nick` represents a valid user /nick because Sopel</span>
-</span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a><span class="sd">    enforces that the  exists and is registered in the server.</span>
-</span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a>
-</span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a><span class="sd">    Returns</span>
-</span><span id="L-190"><a href="#L-190"><span class="linenos">190</span></a><span class="sd">    -------</span>
-</span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a><span class="sd">    The model name as a string.</span>
-</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a>
-</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a><span class="sd">    Raises</span>
-</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a><span class="sd">    ------</span>
-</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a><span class="sd">    `sopel_ai.errors.SopelAIError` if the arguments are invalid or out of range.</span>
-</span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a>
-</span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a><span class="sd">    ---</span>
-</span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a>    <span class="n">_checkDB</span><span class="p">(</span><span class="n">fileNameDB</span><span class="p">)</span>
-</span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a>    <span class="n">models</span><span class="o">=</span> <span class="n">modelsList</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a>    <span class="k">if</span> <span class="n">modelID</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">models</span><span class="p">)):</span>
-</span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;modelID outside of available models index range&#39;</span><span class="p">)</span>
-</span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a>
-</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a>    <span class="n">Preference</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
-</span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a>
-</span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>    <span class="k">if</span> <span class="n">_database</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Preference</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">nick</span><span class="p">):</span>
-</span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>        <span class="n">_database</span><span class="o">.</span><span class="n">update</span><span class="p">({</span> <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">models</span><span class="p">[</span><span class="n">modelID</span><span class="p">],</span> <span class="p">},</span> <span class="n">Preference</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">nick</span><span class="p">)</span>
-</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a>        <span class="n">_database</span><span class="o">.</span><span class="n">insert</span><span class="p">({</span> <span class="s1">&#39;nick&#39;</span><span class="p">:</span> <span class="n">nick</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">models</span><span class="p">[</span><span class="n">modelID</span><span class="p">],</span> <span class="p">})</span>
-</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a>
-</span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a>    <span class="k">return</span> <span class="n">models</span><span class="p">[</span><span class="n">modelID</span><span class="p">]</span>
-</span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a>
+</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a>
+</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a><span class="sd">        nick</span>
+</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a><span class="sd">    A string corresponding to a  nick.</span>
+</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a>
+</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a><span class="sd">        fileNameDB</span>
+</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a><span class="sd">    The path to the database in the file system.  Can be absolute or relative.</span>
+</span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a>
+</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a><span class="sd">        key</span>
+</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a><span class="sd">    The LLM service provider API key.</span>
+</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a>
+</span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a><span class="sd">    The function assumes that `nick` represents a valid user /nick because Sopel</span>
+</span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a><span class="sd">    enforces that the  exists and is registered in the server.</span>
+</span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a>
+</span><span id="L-190"><a href="#L-190"><span class="linenos">190</span></a><span class="sd">    Returns</span>
+</span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a><span class="sd">    -------</span>
+</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a><span class="sd">    The model name as a string.</span>
+</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a>
+</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a><span class="sd">    Raises</span>
+</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a><span class="sd">    ------</span>
+</span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a><span class="sd">    `sopel_ai.errors.SopelAIError` if the arguments are invalid or out of range.</span>
+</span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a>
+</span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a><span class="sd">    ---</span>
+</span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a>    <span class="n">_checkDB</span><span class="p">(</span><span class="n">fileNameDB</span><span class="p">)</span>
+</span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a>    <span class="n">models</span><span class="o">=</span> <span class="n">modelsList</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a>    <span class="k">if</span> <span class="n">modelID</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">models</span><span class="p">)):</span>
+</span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;modelID outside of available models index range&#39;</span><span class="p">)</span>
+</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a>
+</span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a>    <span class="n">query</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
+</span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>
+</span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>    <span class="k">if</span> <span class="n">_database</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">nick</span><span class="p">):</span>
+</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a>        <span class="n">_database</span><span class="o">.</span><span class="n">update</span><span class="p">({</span> <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">models</span><span class="p">[</span><span class="n">modelID</span><span class="p">],</span> <span class="p">},</span> <span class="n">query</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">nick</span><span class="p">)</span>
+</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a>        <span class="n">_database</span><span class="o">.</span><span class="n">insert</span><span class="p">({</span> <span class="s1">&#39;nick&#39;</span><span class="p">:</span> <span class="n">nick</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">models</span><span class="p">[</span><span class="n">modelID</span><span class="p">],</span> <span class="p">})</span>
+</span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a>
+</span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a>    <span class="k">return</span> <span class="n">models</span><span class="p">[</span><span class="n">modelID</span><span class="p">]</span>
 </span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a>
-</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a><span class="k">def</span> <span class="nf">getModelForUser</span><span class="p">(</span><span class="n">nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a><span class="sd">    Get the model name for the user with `nick`.</span>
-</span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a>
-</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a><span class="sd">    Arguments</span>
-</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a><span class="sd">    ---------</span>
-</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a><span class="sd">        nick</span>
-</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a><span class="sd">    A string corresponging to a nick.</span>
-</span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a>
-</span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a><span class="sd">        fileNameDB</span>
-</span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a><span class="sd">    The path to the database in the file system.  Can be absolute or relative.</span>
-</span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a>
-</span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a><span class="sd">        key</span>
-</span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a><span class="sd">    The LLM service provider API key.</span>
-</span><span id="L-228"><a href="#L-228"><span class="linenos">228</span></a>
-</span><span id="L-229"><a href="#L-229"><span class="linenos">229</span></a><span class="sd">    Returns</span>
-</span><span id="L-230"><a href="#L-230"><span class="linenos">230</span></a><span class="sd">    -------</span>
-</span><span id="L-231"><a href="#L-231"><span class="linenos">231</span></a><span class="sd">    A string representing the model name, if one exists in the database</span>
-</span><span id="L-232"><a href="#L-232"><span class="linenos">232</span></a><span class="sd">    associated with the user, `sopel_ai.DEFAULT_LLM` otherwise.</span>
-</span><span id="L-233"><a href="#L-233"><span class="linenos">233</span></a>
-</span><span id="L-234"><a href="#L-234"><span class="linenos">234</span></a><span class="sd">    Raises</span>
-</span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a><span class="sd">    ------</span>
-</span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a><span class="sd">    `sopel_ai.errors.SopelAIError` if the arguments are invalid or out of range.</span>
-</span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a>
-</span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a><span class="sd">    ---</span>
-</span><span id="L-239"><a href="#L-239"><span class="linenos">239</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
-</span><span id="L-241"><a href="#L-241"><span class="linenos">241</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
-</span><span id="L-242"><a href="#L-242"><span class="linenos">242</span></a>
-</span><span id="L-243"><a href="#L-243"><span class="linenos">243</span></a>    <span class="n">_checkDB</span><span class="p">(</span><span class="n">fileNameDB</span><span class="p">)</span>
-</span><span id="L-244"><a href="#L-244"><span class="linenos">244</span></a>    <span class="n">Preference</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
-</span><span id="L-245"><a href="#L-245"><span class="linenos">245</span></a>    <span class="n">preference</span> <span class="o">=</span> <span class="n">_database</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Preference</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">nick</span><span class="p">)</span>
-</span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a>    <span class="k">if</span> <span class="n">preference</span><span class="p">:</span>
-</span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">preference</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
-</span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">PerplexityClient</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="p">,</span> <span class="n">endpoint</span> <span class="o">=</span> <span class="n">PERPLEXITY_API_URL</span><span class="p">)</span>
-</span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a>        <span class="n">client</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-</span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a>        <span class="n">_clientCache</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span> <span class="o">=</span> <span class="n">client</span>
-</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a>        <span class="k">return</span> <span class="n">model</span>
-</span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a>        <span class="k">return</span> <span class="n">DEFAULT_LLM</span>
+</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a>
+</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a><span class="k">def</span> <span class="nf">getModelForUser</span><span class="p">(</span><span class="n">nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a><span class="sd">    Get the model name for the user with `nick`.</span>
+</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a>
+</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a><span class="sd">    Arguments</span>
+</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a><span class="sd">    ---------</span>
+</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a><span class="sd">        nick</span>
+</span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a><span class="sd">    A string corresponging to a nick.</span>
+</span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a>
+</span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a><span class="sd">        fileNameDB</span>
+</span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a><span class="sd">    The path to the database in the file system.  Can be absolute or relative.</span>
+</span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a>
+</span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a><span class="sd">        key</span>
+</span><span id="L-228"><a href="#L-228"><span class="linenos">228</span></a><span class="sd">    The LLM service provider API key.</span>
+</span><span id="L-229"><a href="#L-229"><span class="linenos">229</span></a>
+</span><span id="L-230"><a href="#L-230"><span class="linenos">230</span></a><span class="sd">    Returns</span>
+</span><span id="L-231"><a href="#L-231"><span class="linenos">231</span></a><span class="sd">    -------</span>
+</span><span id="L-232"><a href="#L-232"><span class="linenos">232</span></a><span class="sd">    A string representing the model name, if one exists in the database</span>
+</span><span id="L-233"><a href="#L-233"><span class="linenos">233</span></a><span class="sd">    associated with the user, `sopel_ai.DEFAULT_LLM` otherwise.</span>
+</span><span id="L-234"><a href="#L-234"><span class="linenos">234</span></a>
+</span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a><span class="sd">    Raises</span>
+</span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a><span class="sd">    ------</span>
+</span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a><span class="sd">    `sopel_ai.errors.SopelAIError` if the arguments are invalid or out of range.</span>
+</span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a>
+</span><span id="L-239"><a href="#L-239"><span class="linenos">239</span></a><span class="sd">    ---</span>
+</span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-241"><a href="#L-241"><span class="linenos">241</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
+</span><span id="L-242"><a href="#L-242"><span class="linenos">242</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
+</span><span id="L-243"><a href="#L-243"><span class="linenos">243</span></a>
+</span><span id="L-244"><a href="#L-244"><span class="linenos">244</span></a>    <span class="n">_checkDB</span><span class="p">(</span><span class="n">fileNameDB</span><span class="p">)</span>
+</span><span id="L-245"><a href="#L-245"><span class="linenos">245</span></a>    <span class="n">Preference</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
+</span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a>    <span class="n">preference</span> <span class="o">=</span> <span class="n">_database</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Preference</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">nick</span><span class="p">)</span>
+</span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a>    <span class="k">if</span> <span class="n">preference</span><span class="p">:</span>
+</span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">preference</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
+</span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">PerplexityClient</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="p">,</span> <span class="n">endpoint</span> <span class="o">=</span> <span class="n">PERPLEXITY_API_URL</span><span class="p">)</span>
+</span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a>        <span class="n">client</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a>        <span class="n">_clientCache</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span> <span class="o">=</span> <span class="n">client</span>
+</span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a>        <span class="k">return</span> <span class="n">model</span>
+</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a>        <span class="k">return</span> <span class="n">DEFAULT_LLM</span>
 </span></pre></div>
 
 
@@ -448,63 +449,63 @@ the resonse.</p>
 
     </div>
     <a class="headerlink" href="#runQuery"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="runQuery-70"><a href="#runQuery-70"><span class="linenos"> 70</span></a><span class="k">def</span> <span class="nf">runQuery</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nick</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">responseLength</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">MAX_RESPONSE_LENGTH</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="runQuery-71"><a href="#runQuery-71"><span class="linenos"> 71</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="runQuery-72"><a href="#runQuery-72"><span class="linenos"> 72</span></a><span class="sd">    Run a query against the LLM engine using the PerplexipyClient, and return the</span>
-</span><span id="runQuery-73"><a href="#runQuery-73"><span class="linenos"> 73</span></a><span class="sd">    query result in a string.</span>
-</span><span id="runQuery-74"><a href="#runQuery-74"><span class="linenos"> 74</span></a>
-</span><span id="runQuery-75"><a href="#runQuery-75"><span class="linenos"> 75</span></a><span class="sd">    Arguments</span>
-</span><span id="runQuery-76"><a href="#runQuery-76"><span class="linenos"> 76</span></a><span class="sd">    ---------</span>
-</span><span id="runQuery-77"><a href="#runQuery-77"><span class="linenos"> 77</span></a><span class="sd">        query</span>
-</span><span id="runQuery-78"><a href="#runQuery-78"><span class="linenos"> 78</span></a><span class="sd">    A string with query from `nick` in English, Spanish, Russian, French, or any</span>
-</span><span id="runQuery-79"><a href="#runQuery-79"><span class="linenos"> 79</span></a><span class="sd">    other mainstream language.</span>
-</span><span id="runQuery-80"><a href="#runQuery-80"><span class="linenos"> 80</span></a>
-</span><span id="runQuery-81"><a href="#runQuery-81"><span class="linenos"> 81</span></a><span class="sd">        nick</span>
-</span><span id="runQuery-82"><a href="#runQuery-82"><span class="linenos"> 82</span></a><span class="sd">    The nick on whose behalf this query will run.  The plug-in caches specific</span>
-</span><span id="runQuery-83"><a href="#runQuery-83"><span class="linenos"> 83</span></a><span class="sd">    clients for users who requested to use a specific model.</span>
-</span><span id="runQuery-84"><a href="#runQuery-84"><span class="linenos"> 84</span></a>
-</span><span id="runQuery-85"><a href="#runQuery-85"><span class="linenos"> 85</span></a><span class="sd">        fileNameDB</span>
-</span><span id="runQuery-86"><a href="#runQuery-86"><span class="linenos"> 86</span></a><span class="sd">    The path to the database in the file system.  Can be absolute or relative.</span>
-</span><span id="runQuery-87"><a href="#runQuery-87"><span class="linenos"> 87</span></a>
-</span><span id="runQuery-88"><a href="#runQuery-88"><span class="linenos"> 88</span></a><span class="sd">        responseLength</span>
-</span><span id="runQuery-89"><a href="#runQuery-89"><span class="linenos"> 89</span></a><span class="sd">    The maximum response length requested from the AI provider.  See `MAX_RESPONSE_LENGTH`.</span>
-</span><span id="runQuery-90"><a href="#runQuery-90"><span class="linenos"> 90</span></a>
-</span><span id="runQuery-91"><a href="#runQuery-91"><span class="linenos"> 91</span></a><span class="sd">        key</span>
-</span><span id="runQuery-92"><a href="#runQuery-92"><span class="linenos"> 92</span></a><span class="sd">    The LLM service provider API key.</span>
-</span><span id="runQuery-93"><a href="#runQuery-93"><span class="linenos"> 93</span></a>
-</span><span id="runQuery-94"><a href="#runQuery-94"><span class="linenos"> 94</span></a><span class="sd">    Returns</span>
-</span><span id="runQuery-95"><a href="#runQuery-95"><span class="linenos"> 95</span></a><span class="sd">    -------</span>
-</span><span id="runQuery-96"><a href="#runQuery-96"><span class="linenos"> 96</span></a><span class="sd">    A string with the response if the service found a reasonable and convenient</span>
-</span><span id="runQuery-97"><a href="#runQuery-97"><span class="linenos"> 97</span></a><span class="sd">    one, or the text of an Error and the possible cause, as reported by the</span>
-</span><span id="runQuery-98"><a href="#runQuery-98"><span class="linenos"> 98</span></a><span class="sd">    Python run-time.</span>
-</span><span id="runQuery-99"><a href="#runQuery-99"><span class="linenos"> 99</span></a>
-</span><span id="runQuery-100"><a href="#runQuery-100"><span class="linenos">100</span></a><span class="sd">    Raises</span>
-</span><span id="runQuery-101"><a href="#runQuery-101"><span class="linenos">101</span></a><span class="sd">    ------</span>
-</span><span id="runQuery-102"><a href="#runQuery-102"><span class="linenos">102</span></a><span class="sd">    `SopelAIError` if the `key` is empty or if the query is invalid.  The string</span>
-</span><span id="runQuery-103"><a href="#runQuery-103"><span class="linenos">103</span></a><span class="sd">    message in the error reflects the cause.</span>
-</span><span id="runQuery-104"><a href="#runQuery-104"><span class="linenos">104</span></a>
-</span><span id="runQuery-105"><a href="#runQuery-105"><span class="linenos">105</span></a><span class="sd">    ---</span>
-</span><span id="runQuery-106"><a href="#runQuery-106"><span class="linenos">106</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="runQuery-107"><a href="#runQuery-107"><span class="linenos">107</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
-</span><span id="runQuery-108"><a href="#runQuery-108"><span class="linenos">108</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
-</span><span id="runQuery-109"><a href="#runQuery-109"><span class="linenos">109</span></a>
-</span><span id="runQuery-110"><a href="#runQuery-110"><span class="linenos">110</span></a>    <span class="n">_checkDB</span><span class="p">(</span><span class="n">fileNameDB</span><span class="p">)</span>
-</span><span id="runQuery-111"><a href="#runQuery-111"><span class="linenos">111</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="n">getModelForUser</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-</span><span id="runQuery-112"><a href="#runQuery-112"><span class="linenos">112</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">nick</span> <span class="ow">or</span> <span class="n">model</span> <span class="o">==</span> <span class="n">DEFAULT_LLM</span><span class="p">:</span>
-</span><span id="runQuery-113"><a href="#runQuery-113"><span class="linenos">113</span></a>        <span class="n">_checkClientInstance</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span id="runQuery-114"><a href="#runQuery-114"><span class="linenos">114</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">_client</span>
-</span><span id="runQuery-115"><a href="#runQuery-115"><span class="linenos">115</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="runQuery-116"><a href="#runQuery-116"><span class="linenos">116</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">_clientCache</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span>
-</span><span id="runQuery-117"><a href="#runQuery-117"><span class="linenos">117</span></a>
-</span><span id="runQuery-118"><a href="#runQuery-118"><span class="linenos">118</span></a>    <span class="k">try</span><span class="p">:</span>
-</span><span id="runQuery-119"><a href="#runQuery-119"><span class="linenos">119</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">query</span><span class="p">:</span>
-</span><span id="runQuery-120"><a href="#runQuery-120"><span class="linenos">120</span></a>            <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;query parameter cannot be empty&#39;</span><span class="p">)</span>
-</span><span id="runQuery-121"><a href="#runQuery-121"><span class="linenos">121</span></a>        <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;Brief answer in </span><span class="si">%s</span><span class="s1"> characters or less to: &quot;</span><span class="si">%s</span><span class="s1">&quot;. Include one URL in the response and strip off all Markdown and hashtags.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">responseLength</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
-</span><span id="runQuery-122"><a href="#runQuery-122"><span class="linenos">122</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-</span><span id="runQuery-123"><a href="#runQuery-123"><span class="linenos">123</span></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="runQuery-124"><a href="#runQuery-124"><span class="linenos">124</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> = </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)),</span> <span class="n">e</span><span class="p">)</span>
-</span><span id="runQuery-125"><a href="#runQuery-125"><span class="linenos">125</span></a>
-</span><span id="runQuery-126"><a href="#runQuery-126"><span class="linenos">126</span></a>    <span class="k">return</span> <span class="n">result</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="runQuery-71"><a href="#runQuery-71"><span class="linenos"> 71</span></a><span class="k">def</span> <span class="nf">runQuery</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nick</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">responseLength</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">MAX_RESPONSE_LENGTH</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="runQuery-72"><a href="#runQuery-72"><span class="linenos"> 72</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="runQuery-73"><a href="#runQuery-73"><span class="linenos"> 73</span></a><span class="sd">    Run a query against the LLM engine using the PerplexipyClient, and return the</span>
+</span><span id="runQuery-74"><a href="#runQuery-74"><span class="linenos"> 74</span></a><span class="sd">    query result in a string.</span>
+</span><span id="runQuery-75"><a href="#runQuery-75"><span class="linenos"> 75</span></a>
+</span><span id="runQuery-76"><a href="#runQuery-76"><span class="linenos"> 76</span></a><span class="sd">    Arguments</span>
+</span><span id="runQuery-77"><a href="#runQuery-77"><span class="linenos"> 77</span></a><span class="sd">    ---------</span>
+</span><span id="runQuery-78"><a href="#runQuery-78"><span class="linenos"> 78</span></a><span class="sd">        query</span>
+</span><span id="runQuery-79"><a href="#runQuery-79"><span class="linenos"> 79</span></a><span class="sd">    A string with query from `nick` in English, Spanish, Russian, French, or any</span>
+</span><span id="runQuery-80"><a href="#runQuery-80"><span class="linenos"> 80</span></a><span class="sd">    other mainstream language.</span>
+</span><span id="runQuery-81"><a href="#runQuery-81"><span class="linenos"> 81</span></a>
+</span><span id="runQuery-82"><a href="#runQuery-82"><span class="linenos"> 82</span></a><span class="sd">        nick</span>
+</span><span id="runQuery-83"><a href="#runQuery-83"><span class="linenos"> 83</span></a><span class="sd">    The nick on whose behalf this query will run.  The plug-in caches specific</span>
+</span><span id="runQuery-84"><a href="#runQuery-84"><span class="linenos"> 84</span></a><span class="sd">    clients for users who requested to use a specific model.</span>
+</span><span id="runQuery-85"><a href="#runQuery-85"><span class="linenos"> 85</span></a>
+</span><span id="runQuery-86"><a href="#runQuery-86"><span class="linenos"> 86</span></a><span class="sd">        fileNameDB</span>
+</span><span id="runQuery-87"><a href="#runQuery-87"><span class="linenos"> 87</span></a><span class="sd">    The path to the database in the file system.  Can be absolute or relative.</span>
+</span><span id="runQuery-88"><a href="#runQuery-88"><span class="linenos"> 88</span></a>
+</span><span id="runQuery-89"><a href="#runQuery-89"><span class="linenos"> 89</span></a><span class="sd">        responseLength</span>
+</span><span id="runQuery-90"><a href="#runQuery-90"><span class="linenos"> 90</span></a><span class="sd">    The maximum response length requested from the AI provider.  See `MAX_RESPONSE_LENGTH`.</span>
+</span><span id="runQuery-91"><a href="#runQuery-91"><span class="linenos"> 91</span></a>
+</span><span id="runQuery-92"><a href="#runQuery-92"><span class="linenos"> 92</span></a><span class="sd">        key</span>
+</span><span id="runQuery-93"><a href="#runQuery-93"><span class="linenos"> 93</span></a><span class="sd">    The LLM service provider API key.</span>
+</span><span id="runQuery-94"><a href="#runQuery-94"><span class="linenos"> 94</span></a>
+</span><span id="runQuery-95"><a href="#runQuery-95"><span class="linenos"> 95</span></a><span class="sd">    Returns</span>
+</span><span id="runQuery-96"><a href="#runQuery-96"><span class="linenos"> 96</span></a><span class="sd">    -------</span>
+</span><span id="runQuery-97"><a href="#runQuery-97"><span class="linenos"> 97</span></a><span class="sd">    A string with the response if the service found a reasonable and convenient</span>
+</span><span id="runQuery-98"><a href="#runQuery-98"><span class="linenos"> 98</span></a><span class="sd">    one, or the text of an Error and the possible cause, as reported by the</span>
+</span><span id="runQuery-99"><a href="#runQuery-99"><span class="linenos"> 99</span></a><span class="sd">    Python run-time.</span>
+</span><span id="runQuery-100"><a href="#runQuery-100"><span class="linenos">100</span></a>
+</span><span id="runQuery-101"><a href="#runQuery-101"><span class="linenos">101</span></a><span class="sd">    Raises</span>
+</span><span id="runQuery-102"><a href="#runQuery-102"><span class="linenos">102</span></a><span class="sd">    ------</span>
+</span><span id="runQuery-103"><a href="#runQuery-103"><span class="linenos">103</span></a><span class="sd">    `SopelAIError` if the `key` is empty or if the query is invalid.  The string</span>
+</span><span id="runQuery-104"><a href="#runQuery-104"><span class="linenos">104</span></a><span class="sd">    message in the error reflects the cause.</span>
+</span><span id="runQuery-105"><a href="#runQuery-105"><span class="linenos">105</span></a>
+</span><span id="runQuery-106"><a href="#runQuery-106"><span class="linenos">106</span></a><span class="sd">    ---</span>
+</span><span id="runQuery-107"><a href="#runQuery-107"><span class="linenos">107</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="runQuery-108"><a href="#runQuery-108"><span class="linenos">108</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
+</span><span id="runQuery-109"><a href="#runQuery-109"><span class="linenos">109</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
+</span><span id="runQuery-110"><a href="#runQuery-110"><span class="linenos">110</span></a>
+</span><span id="runQuery-111"><a href="#runQuery-111"><span class="linenos">111</span></a>    <span class="n">_checkDB</span><span class="p">(</span><span class="n">fileNameDB</span><span class="p">)</span>
+</span><span id="runQuery-112"><a href="#runQuery-112"><span class="linenos">112</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="n">getModelForUser</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+</span><span id="runQuery-113"><a href="#runQuery-113"><span class="linenos">113</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">nick</span> <span class="ow">or</span> <span class="n">model</span> <span class="o">==</span> <span class="n">DEFAULT_LLM</span><span class="p">:</span>
+</span><span id="runQuery-114"><a href="#runQuery-114"><span class="linenos">114</span></a>        <span class="n">_checkClientInstance</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span id="runQuery-115"><a href="#runQuery-115"><span class="linenos">115</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">_client</span>
+</span><span id="runQuery-116"><a href="#runQuery-116"><span class="linenos">116</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="runQuery-117"><a href="#runQuery-117"><span class="linenos">117</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">_clientCache</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span>
+</span><span id="runQuery-118"><a href="#runQuery-118"><span class="linenos">118</span></a>
+</span><span id="runQuery-119"><a href="#runQuery-119"><span class="linenos">119</span></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="runQuery-120"><a href="#runQuery-120"><span class="linenos">120</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">query</span><span class="p">:</span>
+</span><span id="runQuery-121"><a href="#runQuery-121"><span class="linenos">121</span></a>            <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;query parameter cannot be empty&#39;</span><span class="p">)</span>
+</span><span id="runQuery-122"><a href="#runQuery-122"><span class="linenos">122</span></a>        <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;Brief answer in </span><span class="si">%s</span><span class="s1"> characters or less to: &quot;</span><span class="si">%s</span><span class="s1">&quot;. Include one URL in the response and strip off all Markdown and hashtags.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">responseLength</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
+</span><span id="runQuery-123"><a href="#runQuery-123"><span class="linenos">123</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span><span id="runQuery-124"><a href="#runQuery-124"><span class="linenos">124</span></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="runQuery-125"><a href="#runQuery-125"><span class="linenos">125</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> = </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)),</span> <span class="n">e</span><span class="p">)</span>
+</span><span id="runQuery-126"><a href="#runQuery-126"><span class="linenos">126</span></a>
+</span><span id="runQuery-127"><a href="#runQuery-127"><span class="linenos">127</span></a>    <span class="k">return</span> <span class="n">result</span>
 </span></pre></div>
 
 
@@ -567,33 +568,33 @@ message in the error reflects the cause.</p>
 
     </div>
     <a class="headerlink" href="#modelsList"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="modelsList-129"><a href="#modelsList-129"><span class="linenos">129</span></a><span class="k">def</span> <span class="nf">modelsList</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-</span><span id="modelsList-130"><a href="#modelsList-130"><span class="linenos">130</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="modelsList-131"><a href="#modelsList-131"><span class="linenos">131</span></a><span class="sd">    Returns a list of all available models so that they can be used for</span>
-</span><span id="modelsList-132"><a href="#modelsList-132"><span class="linenos">132</span></a><span class="sd">    requesting a specific one in another command.</span>
-</span><span id="modelsList-133"><a href="#modelsList-133"><span class="linenos">133</span></a>
-</span><span id="modelsList-134"><a href="#modelsList-134"><span class="linenos">134</span></a><span class="sd">    Returns</span>
-</span><span id="modelsList-135"><a href="#modelsList-135"><span class="linenos">135</span></a><span class="sd">    -------</span>
-</span><span id="modelsList-136"><a href="#modelsList-136"><span class="linenos">136</span></a><span class="sd">    An ordered list of model names supported by the underlying API service.  The</span>
-</span><span id="modelsList-137"><a href="#modelsList-137"><span class="linenos">137</span></a><span class="sd">    order depends on what the underlying API reports, and it&#39;s unlikely to</span>
-</span><span id="modelsList-138"><a href="#modelsList-138"><span class="linenos">138</span></a><span class="sd">    change between calls.</span>
-</span><span id="modelsList-139"><a href="#modelsList-139"><span class="linenos">139</span></a>
-</span><span id="modelsList-140"><a href="#modelsList-140"><span class="linenos">140</span></a><span class="sd">    Other SopelAI functions will use the index to refer to a model in the</span>
-</span><span id="modelsList-141"><a href="#modelsList-141"><span class="linenos">141</span></a><span class="sd">    collection.</span>
-</span><span id="modelsList-142"><a href="#modelsList-142"><span class="linenos">142</span></a>
-</span><span id="modelsList-143"><a href="#modelsList-143"><span class="linenos">143</span></a><span class="sd">    Raises</span>
-</span><span id="modelsList-144"><a href="#modelsList-144"><span class="linenos">144</span></a><span class="sd">    ------</span>
-</span><span id="modelsList-145"><a href="#modelsList-145"><span class="linenos">145</span></a><span class="sd">    `SopelAIError` if the `key` is empty or if the query is invalid.  The string</span>
-</span><span id="modelsList-146"><a href="#modelsList-146"><span class="linenos">146</span></a><span class="sd">    message in the error reflects the cause.</span>
-</span><span id="modelsList-147"><a href="#modelsList-147"><span class="linenos">147</span></a>
-</span><span id="modelsList-148"><a href="#modelsList-148"><span class="linenos">148</span></a><span class="sd">    ---</span>
-</span><span id="modelsList-149"><a href="#modelsList-149"><span class="linenos">149</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="modelsList-150"><a href="#modelsList-150"><span class="linenos">150</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
-</span><span id="modelsList-151"><a href="#modelsList-151"><span class="linenos">151</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
-</span><span id="modelsList-152"><a href="#modelsList-152"><span class="linenos">152</span></a>
-</span><span id="modelsList-153"><a href="#modelsList-153"><span class="linenos">153</span></a>    <span class="n">_checkClientInstance</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span id="modelsList-154"><a href="#modelsList-154"><span class="linenos">154</span></a>
-</span><span id="modelsList-155"><a href="#modelsList-155"><span class="linenos">155</span></a>    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">_client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="modelsList-130"><a href="#modelsList-130"><span class="linenos">130</span></a><span class="k">def</span> <span class="nf">modelsList</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+</span><span id="modelsList-131"><a href="#modelsList-131"><span class="linenos">131</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="modelsList-132"><a href="#modelsList-132"><span class="linenos">132</span></a><span class="sd">    Returns a list of all available models so that they can be used for</span>
+</span><span id="modelsList-133"><a href="#modelsList-133"><span class="linenos">133</span></a><span class="sd">    requesting a specific one in another command.</span>
+</span><span id="modelsList-134"><a href="#modelsList-134"><span class="linenos">134</span></a>
+</span><span id="modelsList-135"><a href="#modelsList-135"><span class="linenos">135</span></a><span class="sd">    Returns</span>
+</span><span id="modelsList-136"><a href="#modelsList-136"><span class="linenos">136</span></a><span class="sd">    -------</span>
+</span><span id="modelsList-137"><a href="#modelsList-137"><span class="linenos">137</span></a><span class="sd">    An ordered list of model names supported by the underlying API service.  The</span>
+</span><span id="modelsList-138"><a href="#modelsList-138"><span class="linenos">138</span></a><span class="sd">    order depends on what the underlying API reports, and it&#39;s unlikely to</span>
+</span><span id="modelsList-139"><a href="#modelsList-139"><span class="linenos">139</span></a><span class="sd">    change between calls.</span>
+</span><span id="modelsList-140"><a href="#modelsList-140"><span class="linenos">140</span></a>
+</span><span id="modelsList-141"><a href="#modelsList-141"><span class="linenos">141</span></a><span class="sd">    Other SopelAI functions will use the index to refer to a model in the</span>
+</span><span id="modelsList-142"><a href="#modelsList-142"><span class="linenos">142</span></a><span class="sd">    collection.</span>
+</span><span id="modelsList-143"><a href="#modelsList-143"><span class="linenos">143</span></a>
+</span><span id="modelsList-144"><a href="#modelsList-144"><span class="linenos">144</span></a><span class="sd">    Raises</span>
+</span><span id="modelsList-145"><a href="#modelsList-145"><span class="linenos">145</span></a><span class="sd">    ------</span>
+</span><span id="modelsList-146"><a href="#modelsList-146"><span class="linenos">146</span></a><span class="sd">    `SopelAIError` if the `key` is empty or if the query is invalid.  The string</span>
+</span><span id="modelsList-147"><a href="#modelsList-147"><span class="linenos">147</span></a><span class="sd">    message in the error reflects the cause.</span>
+</span><span id="modelsList-148"><a href="#modelsList-148"><span class="linenos">148</span></a>
+</span><span id="modelsList-149"><a href="#modelsList-149"><span class="linenos">149</span></a><span class="sd">    ---</span>
+</span><span id="modelsList-150"><a href="#modelsList-150"><span class="linenos">150</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="modelsList-151"><a href="#modelsList-151"><span class="linenos">151</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
+</span><span id="modelsList-152"><a href="#modelsList-152"><span class="linenos">152</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
+</span><span id="modelsList-153"><a href="#modelsList-153"><span class="linenos">153</span></a>
+</span><span id="modelsList-154"><a href="#modelsList-154"><span class="linenos">154</span></a>    <span class="n">_checkClientInstance</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span id="modelsList-155"><a href="#modelsList-155"><span class="linenos">155</span></a>
+</span><span id="modelsList-156"><a href="#modelsList-156"><span class="linenos">156</span></a>    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">_client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 </span></pre></div>
 
 
@@ -630,12 +631,12 @@ message in the error reflects the cause.</p>
 
     </div>
     <a class="headerlink" href="#versionInfo"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="versionInfo-158"><a href="#versionInfo-158"><span class="linenos">158</span></a><span class="k">def</span> <span class="nf">versionInfo</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="versionInfo-159"><a href="#versionInfo-159"><span class="linenos">159</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
-</span><span id="versionInfo-160"><a href="#versionInfo-160"><span class="linenos">160</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
-</span><span id="versionInfo-161"><a href="#versionInfo-161"><span class="linenos">161</span></a>
-</span><span id="versionInfo-162"><a href="#versionInfo-162"><span class="linenos">162</span></a>    <span class="n">_checkClientInstance</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span id="versionInfo-163"><a href="#versionInfo-163"><span class="linenos">163</span></a>    <span class="k">return</span> <span class="s1">&#39;sopel_ai v</span><span class="si">%s</span><span class="s1"> using </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">__VERSION__</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">_client</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span> <span class="n">_client</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]))</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="versionInfo-159"><a href="#versionInfo-159"><span class="linenos">159</span></a><span class="k">def</span> <span class="nf">versionInfo</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="versionInfo-160"><a href="#versionInfo-160"><span class="linenos">160</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
+</span><span id="versionInfo-161"><a href="#versionInfo-161"><span class="linenos">161</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
+</span><span id="versionInfo-162"><a href="#versionInfo-162"><span class="linenos">162</span></a>
+</span><span id="versionInfo-163"><a href="#versionInfo-163"><span class="linenos">163</span></a>    <span class="n">_checkClientInstance</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span id="versionInfo-164"><a href="#versionInfo-164"><span class="linenos">164</span></a>    <span class="k">return</span> <span class="s1">&#39;sopel_ai v</span><span class="si">%s</span><span class="s1"> using </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">__VERSION__</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">_client</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span> <span class="n">_client</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]))</span>
 </span></pre></div>
 
 
@@ -653,53 +654,53 @@ message in the error reflects the cause.</p>
 
     </div>
     <a class="headerlink" href="#setModelForUser"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="setModelForUser-166"><a href="#setModelForUser-166"><span class="linenos">166</span></a><span class="k">def</span> <span class="nf">setModelForUser</span><span class="p">(</span><span class="n">modelID</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="setModelForUser-167"><a href="#setModelForUser-167"><span class="linenos">167</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="setModelForUser-168"><a href="#setModelForUser-168"><span class="linenos">168</span></a><span class="sd">    Set the model associated with `modelID` for processing requests from `nick`.</span>
-</span><span id="setModelForUser-169"><a href="#setModelForUser-169"><span class="linenos">169</span></a><span class="sd">    The `modelID` is the index into the `models` object returned by</span>
-</span><span id="setModelForUser-170"><a href="#setModelForUser-170"><span class="linenos">170</span></a><span class="sd">    `sopel_ai.modelsList()`, from zero.</span>
-</span><span id="setModelForUser-171"><a href="#setModelForUser-171"><span class="linenos">171</span></a>
-</span><span id="setModelForUser-172"><a href="#setModelForUser-172"><span class="linenos">172</span></a><span class="sd">    Arguments</span>
-</span><span id="setModelForUser-173"><a href="#setModelForUser-173"><span class="linenos">173</span></a><span class="sd">    ---------</span>
-</span><span id="setModelForUser-174"><a href="#setModelForUser-174"><span class="linenos">174</span></a><span class="sd">        modelID</span>
-</span><span id="setModelForUser-175"><a href="#setModelForUser-175"><span class="linenos">175</span></a><span class="sd">    An integer corresponding to the model&#39;s occurrence in the models list.</span>
-</span><span id="setModelForUser-176"><a href="#setModelForUser-176"><span class="linenos">176</span></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="setModelForUser-167"><a href="#setModelForUser-167"><span class="linenos">167</span></a><span class="k">def</span> <span class="nf">setModelForUser</span><span class="p">(</span><span class="n">modelID</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="setModelForUser-168"><a href="#setModelForUser-168"><span class="linenos">168</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="setModelForUser-169"><a href="#setModelForUser-169"><span class="linenos">169</span></a><span class="sd">    Set the model associated with `modelID` for processing requests from `nick`.</span>
+</span><span id="setModelForUser-170"><a href="#setModelForUser-170"><span class="linenos">170</span></a><span class="sd">    The `modelID` is the index into the `models` object returned by</span>
+</span><span id="setModelForUser-171"><a href="#setModelForUser-171"><span class="linenos">171</span></a><span class="sd">    `sopel_ai.modelsList()`, from zero.</span>
+</span><span id="setModelForUser-172"><a href="#setModelForUser-172"><span class="linenos">172</span></a>
+</span><span id="setModelForUser-173"><a href="#setModelForUser-173"><span class="linenos">173</span></a><span class="sd">    Arguments</span>
+</span><span id="setModelForUser-174"><a href="#setModelForUser-174"><span class="linenos">174</span></a><span class="sd">    ---------</span>
+</span><span id="setModelForUser-175"><a href="#setModelForUser-175"><span class="linenos">175</span></a><span class="sd">        modelID</span>
+</span><span id="setModelForUser-176"><a href="#setModelForUser-176"><span class="linenos">176</span></a><span class="sd">    An integer corresponding to the model&#39;s occurrence in the models list.</span>
 </span><span id="setModelForUser-177"><a href="#setModelForUser-177"><span class="linenos">177</span></a>
-</span><span id="setModelForUser-178"><a href="#setModelForUser-178"><span class="linenos">178</span></a><span class="sd">        nick</span>
-</span><span id="setModelForUser-179"><a href="#setModelForUser-179"><span class="linenos">179</span></a><span class="sd">    A string corresponding to a  nick.</span>
-</span><span id="setModelForUser-180"><a href="#setModelForUser-180"><span class="linenos">180</span></a>
-</span><span id="setModelForUser-181"><a href="#setModelForUser-181"><span class="linenos">181</span></a><span class="sd">        fileNameDB</span>
-</span><span id="setModelForUser-182"><a href="#setModelForUser-182"><span class="linenos">182</span></a><span class="sd">    The path to the database in the file system.  Can be absolute or relative.</span>
-</span><span id="setModelForUser-183"><a href="#setModelForUser-183"><span class="linenos">183</span></a>
-</span><span id="setModelForUser-184"><a href="#setModelForUser-184"><span class="linenos">184</span></a><span class="sd">        key</span>
-</span><span id="setModelForUser-185"><a href="#setModelForUser-185"><span class="linenos">185</span></a><span class="sd">    The LLM service provider API key.</span>
-</span><span id="setModelForUser-186"><a href="#setModelForUser-186"><span class="linenos">186</span></a>
-</span><span id="setModelForUser-187"><a href="#setModelForUser-187"><span class="linenos">187</span></a><span class="sd">    The function assumes that `nick` represents a valid user /nick because Sopel</span>
-</span><span id="setModelForUser-188"><a href="#setModelForUser-188"><span class="linenos">188</span></a><span class="sd">    enforces that the  exists and is registered in the server.</span>
-</span><span id="setModelForUser-189"><a href="#setModelForUser-189"><span class="linenos">189</span></a>
-</span><span id="setModelForUser-190"><a href="#setModelForUser-190"><span class="linenos">190</span></a><span class="sd">    Returns</span>
-</span><span id="setModelForUser-191"><a href="#setModelForUser-191"><span class="linenos">191</span></a><span class="sd">    -------</span>
-</span><span id="setModelForUser-192"><a href="#setModelForUser-192"><span class="linenos">192</span></a><span class="sd">    The model name as a string.</span>
-</span><span id="setModelForUser-193"><a href="#setModelForUser-193"><span class="linenos">193</span></a>
-</span><span id="setModelForUser-194"><a href="#setModelForUser-194"><span class="linenos">194</span></a><span class="sd">    Raises</span>
-</span><span id="setModelForUser-195"><a href="#setModelForUser-195"><span class="linenos">195</span></a><span class="sd">    ------</span>
-</span><span id="setModelForUser-196"><a href="#setModelForUser-196"><span class="linenos">196</span></a><span class="sd">    `sopel_ai.errors.SopelAIError` if the arguments are invalid or out of range.</span>
-</span><span id="setModelForUser-197"><a href="#setModelForUser-197"><span class="linenos">197</span></a>
-</span><span id="setModelForUser-198"><a href="#setModelForUser-198"><span class="linenos">198</span></a><span class="sd">    ---</span>
-</span><span id="setModelForUser-199"><a href="#setModelForUser-199"><span class="linenos">199</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="setModelForUser-200"><a href="#setModelForUser-200"><span class="linenos">200</span></a>    <span class="n">_checkDB</span><span class="p">(</span><span class="n">fileNameDB</span><span class="p">)</span>
-</span><span id="setModelForUser-201"><a href="#setModelForUser-201"><span class="linenos">201</span></a>    <span class="n">models</span><span class="o">=</span> <span class="n">modelsList</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span id="setModelForUser-202"><a href="#setModelForUser-202"><span class="linenos">202</span></a>    <span class="k">if</span> <span class="n">modelID</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">models</span><span class="p">)):</span>
-</span><span id="setModelForUser-203"><a href="#setModelForUser-203"><span class="linenos">203</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;modelID outside of available models index range&#39;</span><span class="p">)</span>
-</span><span id="setModelForUser-204"><a href="#setModelForUser-204"><span class="linenos">204</span></a>
-</span><span id="setModelForUser-205"><a href="#setModelForUser-205"><span class="linenos">205</span></a>    <span class="n">Preference</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
-</span><span id="setModelForUser-206"><a href="#setModelForUser-206"><span class="linenos">206</span></a>
-</span><span id="setModelForUser-207"><a href="#setModelForUser-207"><span class="linenos">207</span></a>    <span class="k">if</span> <span class="n">_database</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Preference</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">nick</span><span class="p">):</span>
-</span><span id="setModelForUser-208"><a href="#setModelForUser-208"><span class="linenos">208</span></a>        <span class="n">_database</span><span class="o">.</span><span class="n">update</span><span class="p">({</span> <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">models</span><span class="p">[</span><span class="n">modelID</span><span class="p">],</span> <span class="p">},</span> <span class="n">Preference</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">nick</span><span class="p">)</span>
-</span><span id="setModelForUser-209"><a href="#setModelForUser-209"><span class="linenos">209</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="setModelForUser-210"><a href="#setModelForUser-210"><span class="linenos">210</span></a>        <span class="n">_database</span><span class="o">.</span><span class="n">insert</span><span class="p">({</span> <span class="s1">&#39;nick&#39;</span><span class="p">:</span> <span class="n">nick</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">models</span><span class="p">[</span><span class="n">modelID</span><span class="p">],</span> <span class="p">})</span>
-</span><span id="setModelForUser-211"><a href="#setModelForUser-211"><span class="linenos">211</span></a>
-</span><span id="setModelForUser-212"><a href="#setModelForUser-212"><span class="linenos">212</span></a>    <span class="k">return</span> <span class="n">models</span><span class="p">[</span><span class="n">modelID</span><span class="p">]</span>
+</span><span id="setModelForUser-178"><a href="#setModelForUser-178"><span class="linenos">178</span></a>
+</span><span id="setModelForUser-179"><a href="#setModelForUser-179"><span class="linenos">179</span></a><span class="sd">        nick</span>
+</span><span id="setModelForUser-180"><a href="#setModelForUser-180"><span class="linenos">180</span></a><span class="sd">    A string corresponding to a  nick.</span>
+</span><span id="setModelForUser-181"><a href="#setModelForUser-181"><span class="linenos">181</span></a>
+</span><span id="setModelForUser-182"><a href="#setModelForUser-182"><span class="linenos">182</span></a><span class="sd">        fileNameDB</span>
+</span><span id="setModelForUser-183"><a href="#setModelForUser-183"><span class="linenos">183</span></a><span class="sd">    The path to the database in the file system.  Can be absolute or relative.</span>
+</span><span id="setModelForUser-184"><a href="#setModelForUser-184"><span class="linenos">184</span></a>
+</span><span id="setModelForUser-185"><a href="#setModelForUser-185"><span class="linenos">185</span></a><span class="sd">        key</span>
+</span><span id="setModelForUser-186"><a href="#setModelForUser-186"><span class="linenos">186</span></a><span class="sd">    The LLM service provider API key.</span>
+</span><span id="setModelForUser-187"><a href="#setModelForUser-187"><span class="linenos">187</span></a>
+</span><span id="setModelForUser-188"><a href="#setModelForUser-188"><span class="linenos">188</span></a><span class="sd">    The function assumes that `nick` represents a valid user /nick because Sopel</span>
+</span><span id="setModelForUser-189"><a href="#setModelForUser-189"><span class="linenos">189</span></a><span class="sd">    enforces that the  exists and is registered in the server.</span>
+</span><span id="setModelForUser-190"><a href="#setModelForUser-190"><span class="linenos">190</span></a>
+</span><span id="setModelForUser-191"><a href="#setModelForUser-191"><span class="linenos">191</span></a><span class="sd">    Returns</span>
+</span><span id="setModelForUser-192"><a href="#setModelForUser-192"><span class="linenos">192</span></a><span class="sd">    -------</span>
+</span><span id="setModelForUser-193"><a href="#setModelForUser-193"><span class="linenos">193</span></a><span class="sd">    The model name as a string.</span>
+</span><span id="setModelForUser-194"><a href="#setModelForUser-194"><span class="linenos">194</span></a>
+</span><span id="setModelForUser-195"><a href="#setModelForUser-195"><span class="linenos">195</span></a><span class="sd">    Raises</span>
+</span><span id="setModelForUser-196"><a href="#setModelForUser-196"><span class="linenos">196</span></a><span class="sd">    ------</span>
+</span><span id="setModelForUser-197"><a href="#setModelForUser-197"><span class="linenos">197</span></a><span class="sd">    `sopel_ai.errors.SopelAIError` if the arguments are invalid or out of range.</span>
+</span><span id="setModelForUser-198"><a href="#setModelForUser-198"><span class="linenos">198</span></a>
+</span><span id="setModelForUser-199"><a href="#setModelForUser-199"><span class="linenos">199</span></a><span class="sd">    ---</span>
+</span><span id="setModelForUser-200"><a href="#setModelForUser-200"><span class="linenos">200</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="setModelForUser-201"><a href="#setModelForUser-201"><span class="linenos">201</span></a>    <span class="n">_checkDB</span><span class="p">(</span><span class="n">fileNameDB</span><span class="p">)</span>
+</span><span id="setModelForUser-202"><a href="#setModelForUser-202"><span class="linenos">202</span></a>    <span class="n">models</span><span class="o">=</span> <span class="n">modelsList</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span id="setModelForUser-203"><a href="#setModelForUser-203"><span class="linenos">203</span></a>    <span class="k">if</span> <span class="n">modelID</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">models</span><span class="p">)):</span>
+</span><span id="setModelForUser-204"><a href="#setModelForUser-204"><span class="linenos">204</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;modelID outside of available models index range&#39;</span><span class="p">)</span>
+</span><span id="setModelForUser-205"><a href="#setModelForUser-205"><span class="linenos">205</span></a>
+</span><span id="setModelForUser-206"><a href="#setModelForUser-206"><span class="linenos">206</span></a>    <span class="n">query</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
+</span><span id="setModelForUser-207"><a href="#setModelForUser-207"><span class="linenos">207</span></a>
+</span><span id="setModelForUser-208"><a href="#setModelForUser-208"><span class="linenos">208</span></a>    <span class="k">if</span> <span class="n">_database</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">nick</span><span class="p">):</span>
+</span><span id="setModelForUser-209"><a href="#setModelForUser-209"><span class="linenos">209</span></a>        <span class="n">_database</span><span class="o">.</span><span class="n">update</span><span class="p">({</span> <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">models</span><span class="p">[</span><span class="n">modelID</span><span class="p">],</span> <span class="p">},</span> <span class="n">query</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">nick</span><span class="p">)</span>
+</span><span id="setModelForUser-210"><a href="#setModelForUser-210"><span class="linenos">210</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="setModelForUser-211"><a href="#setModelForUser-211"><span class="linenos">211</span></a>        <span class="n">_database</span><span class="o">.</span><span class="n">insert</span><span class="p">({</span> <span class="s1">&#39;nick&#39;</span><span class="p">:</span> <span class="n">nick</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">models</span><span class="p">[</span><span class="n">modelID</span><span class="p">],</span> <span class="p">})</span>
+</span><span id="setModelForUser-212"><a href="#setModelForUser-212"><span class="linenos">212</span></a>
+</span><span id="setModelForUser-213"><a href="#setModelForUser-213"><span class="linenos">213</span></a>    <span class="k">return</span> <span class="n">models</span><span class="p">[</span><span class="n">modelID</span><span class="p">]</span>
 </span></pre></div>
 
 
@@ -756,46 +757,46 @@ enforces that the  exists and is registered in the server.</p>
 
     </div>
     <a class="headerlink" href="#getModelForUser"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="getModelForUser-215"><a href="#getModelForUser-215"><span class="linenos">215</span></a><span class="k">def</span> <span class="nf">getModelForUser</span><span class="p">(</span><span class="n">nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="getModelForUser-216"><a href="#getModelForUser-216"><span class="linenos">216</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="getModelForUser-217"><a href="#getModelForUser-217"><span class="linenos">217</span></a><span class="sd">    Get the model name for the user with `nick`.</span>
-</span><span id="getModelForUser-218"><a href="#getModelForUser-218"><span class="linenos">218</span></a>
-</span><span id="getModelForUser-219"><a href="#getModelForUser-219"><span class="linenos">219</span></a><span class="sd">    Arguments</span>
-</span><span id="getModelForUser-220"><a href="#getModelForUser-220"><span class="linenos">220</span></a><span class="sd">    ---------</span>
-</span><span id="getModelForUser-221"><a href="#getModelForUser-221"><span class="linenos">221</span></a><span class="sd">        nick</span>
-</span><span id="getModelForUser-222"><a href="#getModelForUser-222"><span class="linenos">222</span></a><span class="sd">    A string corresponging to a nick.</span>
-</span><span id="getModelForUser-223"><a href="#getModelForUser-223"><span class="linenos">223</span></a>
-</span><span id="getModelForUser-224"><a href="#getModelForUser-224"><span class="linenos">224</span></a><span class="sd">        fileNameDB</span>
-</span><span id="getModelForUser-225"><a href="#getModelForUser-225"><span class="linenos">225</span></a><span class="sd">    The path to the database in the file system.  Can be absolute or relative.</span>
-</span><span id="getModelForUser-226"><a href="#getModelForUser-226"><span class="linenos">226</span></a>
-</span><span id="getModelForUser-227"><a href="#getModelForUser-227"><span class="linenos">227</span></a><span class="sd">        key</span>
-</span><span id="getModelForUser-228"><a href="#getModelForUser-228"><span class="linenos">228</span></a><span class="sd">    The LLM service provider API key.</span>
-</span><span id="getModelForUser-229"><a href="#getModelForUser-229"><span class="linenos">229</span></a>
-</span><span id="getModelForUser-230"><a href="#getModelForUser-230"><span class="linenos">230</span></a><span class="sd">    Returns</span>
-</span><span id="getModelForUser-231"><a href="#getModelForUser-231"><span class="linenos">231</span></a><span class="sd">    -------</span>
-</span><span id="getModelForUser-232"><a href="#getModelForUser-232"><span class="linenos">232</span></a><span class="sd">    A string representing the model name, if one exists in the database</span>
-</span><span id="getModelForUser-233"><a href="#getModelForUser-233"><span class="linenos">233</span></a><span class="sd">    associated with the user, `sopel_ai.DEFAULT_LLM` otherwise.</span>
-</span><span id="getModelForUser-234"><a href="#getModelForUser-234"><span class="linenos">234</span></a>
-</span><span id="getModelForUser-235"><a href="#getModelForUser-235"><span class="linenos">235</span></a><span class="sd">    Raises</span>
-</span><span id="getModelForUser-236"><a href="#getModelForUser-236"><span class="linenos">236</span></a><span class="sd">    ------</span>
-</span><span id="getModelForUser-237"><a href="#getModelForUser-237"><span class="linenos">237</span></a><span class="sd">    `sopel_ai.errors.SopelAIError` if the arguments are invalid or out of range.</span>
-</span><span id="getModelForUser-238"><a href="#getModelForUser-238"><span class="linenos">238</span></a>
-</span><span id="getModelForUser-239"><a href="#getModelForUser-239"><span class="linenos">239</span></a><span class="sd">    ---</span>
-</span><span id="getModelForUser-240"><a href="#getModelForUser-240"><span class="linenos">240</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="getModelForUser-241"><a href="#getModelForUser-241"><span class="linenos">241</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
-</span><span id="getModelForUser-242"><a href="#getModelForUser-242"><span class="linenos">242</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
-</span><span id="getModelForUser-243"><a href="#getModelForUser-243"><span class="linenos">243</span></a>
-</span><span id="getModelForUser-244"><a href="#getModelForUser-244"><span class="linenos">244</span></a>    <span class="n">_checkDB</span><span class="p">(</span><span class="n">fileNameDB</span><span class="p">)</span>
-</span><span id="getModelForUser-245"><a href="#getModelForUser-245"><span class="linenos">245</span></a>    <span class="n">Preference</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
-</span><span id="getModelForUser-246"><a href="#getModelForUser-246"><span class="linenos">246</span></a>    <span class="n">preference</span> <span class="o">=</span> <span class="n">_database</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Preference</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">nick</span><span class="p">)</span>
-</span><span id="getModelForUser-247"><a href="#getModelForUser-247"><span class="linenos">247</span></a>    <span class="k">if</span> <span class="n">preference</span><span class="p">:</span>
-</span><span id="getModelForUser-248"><a href="#getModelForUser-248"><span class="linenos">248</span></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">preference</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
-</span><span id="getModelForUser-249"><a href="#getModelForUser-249"><span class="linenos">249</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">PerplexityClient</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="p">,</span> <span class="n">endpoint</span> <span class="o">=</span> <span class="n">PERPLEXITY_API_URL</span><span class="p">)</span>
-</span><span id="getModelForUser-250"><a href="#getModelForUser-250"><span class="linenos">250</span></a>        <span class="n">client</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-</span><span id="getModelForUser-251"><a href="#getModelForUser-251"><span class="linenos">251</span></a>        <span class="n">_clientCache</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span> <span class="o">=</span> <span class="n">client</span>
-</span><span id="getModelForUser-252"><a href="#getModelForUser-252"><span class="linenos">252</span></a>        <span class="k">return</span> <span class="n">model</span>
-</span><span id="getModelForUser-253"><a href="#getModelForUser-253"><span class="linenos">253</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="getModelForUser-254"><a href="#getModelForUser-254"><span class="linenos">254</span></a>        <span class="k">return</span> <span class="n">DEFAULT_LLM</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="getModelForUser-216"><a href="#getModelForUser-216"><span class="linenos">216</span></a><span class="k">def</span> <span class="nf">getModelForUser</span><span class="p">(</span><span class="n">nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fileNameDB</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="getModelForUser-217"><a href="#getModelForUser-217"><span class="linenos">217</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="getModelForUser-218"><a href="#getModelForUser-218"><span class="linenos">218</span></a><span class="sd">    Get the model name for the user with `nick`.</span>
+</span><span id="getModelForUser-219"><a href="#getModelForUser-219"><span class="linenos">219</span></a>
+</span><span id="getModelForUser-220"><a href="#getModelForUser-220"><span class="linenos">220</span></a><span class="sd">    Arguments</span>
+</span><span id="getModelForUser-221"><a href="#getModelForUser-221"><span class="linenos">221</span></a><span class="sd">    ---------</span>
+</span><span id="getModelForUser-222"><a href="#getModelForUser-222"><span class="linenos">222</span></a><span class="sd">        nick</span>
+</span><span id="getModelForUser-223"><a href="#getModelForUser-223"><span class="linenos">223</span></a><span class="sd">    A string corresponging to a nick.</span>
+</span><span id="getModelForUser-224"><a href="#getModelForUser-224"><span class="linenos">224</span></a>
+</span><span id="getModelForUser-225"><a href="#getModelForUser-225"><span class="linenos">225</span></a><span class="sd">        fileNameDB</span>
+</span><span id="getModelForUser-226"><a href="#getModelForUser-226"><span class="linenos">226</span></a><span class="sd">    The path to the database in the file system.  Can be absolute or relative.</span>
+</span><span id="getModelForUser-227"><a href="#getModelForUser-227"><span class="linenos">227</span></a>
+</span><span id="getModelForUser-228"><a href="#getModelForUser-228"><span class="linenos">228</span></a><span class="sd">        key</span>
+</span><span id="getModelForUser-229"><a href="#getModelForUser-229"><span class="linenos">229</span></a><span class="sd">    The LLM service provider API key.</span>
+</span><span id="getModelForUser-230"><a href="#getModelForUser-230"><span class="linenos">230</span></a>
+</span><span id="getModelForUser-231"><a href="#getModelForUser-231"><span class="linenos">231</span></a><span class="sd">    Returns</span>
+</span><span id="getModelForUser-232"><a href="#getModelForUser-232"><span class="linenos">232</span></a><span class="sd">    -------</span>
+</span><span id="getModelForUser-233"><a href="#getModelForUser-233"><span class="linenos">233</span></a><span class="sd">    A string representing the model name, if one exists in the database</span>
+</span><span id="getModelForUser-234"><a href="#getModelForUser-234"><span class="linenos">234</span></a><span class="sd">    associated with the user, `sopel_ai.DEFAULT_LLM` otherwise.</span>
+</span><span id="getModelForUser-235"><a href="#getModelForUser-235"><span class="linenos">235</span></a>
+</span><span id="getModelForUser-236"><a href="#getModelForUser-236"><span class="linenos">236</span></a><span class="sd">    Raises</span>
+</span><span id="getModelForUser-237"><a href="#getModelForUser-237"><span class="linenos">237</span></a><span class="sd">    ------</span>
+</span><span id="getModelForUser-238"><a href="#getModelForUser-238"><span class="linenos">238</span></a><span class="sd">    `sopel_ai.errors.SopelAIError` if the arguments are invalid or out of range.</span>
+</span><span id="getModelForUser-239"><a href="#getModelForUser-239"><span class="linenos">239</span></a>
+</span><span id="getModelForUser-240"><a href="#getModelForUser-240"><span class="linenos">240</span></a><span class="sd">    ---</span>
+</span><span id="getModelForUser-241"><a href="#getModelForUser-241"><span class="linenos">241</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="getModelForUser-242"><a href="#getModelForUser-242"><span class="linenos">242</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
+</span><span id="getModelForUser-243"><a href="#getModelForUser-243"><span class="linenos">243</span></a>        <span class="k">raise</span> <span class="n">SopelAIError</span><span class="p">(</span><span class="s1">&#39;key argument cannot be empty - set the LLM service API key&#39;</span><span class="p">)</span>
+</span><span id="getModelForUser-244"><a href="#getModelForUser-244"><span class="linenos">244</span></a>
+</span><span id="getModelForUser-245"><a href="#getModelForUser-245"><span class="linenos">245</span></a>    <span class="n">_checkDB</span><span class="p">(</span><span class="n">fileNameDB</span><span class="p">)</span>
+</span><span id="getModelForUser-246"><a href="#getModelForUser-246"><span class="linenos">246</span></a>    <span class="n">Preference</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
+</span><span id="getModelForUser-247"><a href="#getModelForUser-247"><span class="linenos">247</span></a>    <span class="n">preference</span> <span class="o">=</span> <span class="n">_database</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Preference</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">nick</span><span class="p">)</span>
+</span><span id="getModelForUser-248"><a href="#getModelForUser-248"><span class="linenos">248</span></a>    <span class="k">if</span> <span class="n">preference</span><span class="p">:</span>
+</span><span id="getModelForUser-249"><a href="#getModelForUser-249"><span class="linenos">249</span></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">preference</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
+</span><span id="getModelForUser-250"><a href="#getModelForUser-250"><span class="linenos">250</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">PerplexityClient</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="p">,</span> <span class="n">endpoint</span> <span class="o">=</span> <span class="n">PERPLEXITY_API_URL</span><span class="p">)</span>
+</span><span id="getModelForUser-251"><a href="#getModelForUser-251"><span class="linenos">251</span></a>        <span class="n">client</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+</span><span id="getModelForUser-252"><a href="#getModelForUser-252"><span class="linenos">252</span></a>        <span class="n">_clientCache</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span> <span class="o">=</span> <span class="n">client</span>
+</span><span id="getModelForUser-253"><a href="#getModelForUser-253"><span class="linenos">253</span></a>        <span class="k">return</span> <span class="n">model</span>
+</span><span id="getModelForUser-254"><a href="#getModelForUser-254"><span class="linenos">254</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="getModelForUser-255"><a href="#getModelForUser-255"><span class="linenos">255</span></a>        <span class="k">return</span> <span class="n">DEFAULT_LLM</span>
 </span></pre></div>
 
 

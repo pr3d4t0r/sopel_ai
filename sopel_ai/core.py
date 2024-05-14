@@ -54,6 +54,7 @@ def _checkDB(fileName: str) -> TinyDB:
 
     if not _database:
         _database = TinyDB(fileName)
+        _database.table('_default', cache_size = 0)
 
     return _database
 
@@ -201,10 +202,10 @@ def setModelForUser(modelID: int, nick: str, fileNameDB: str, key = None) -> str
     if modelID not in range(len(models)):
         raise SopelAIError('modelID outside of available models index range')
 
-    Preference = Query()
+    query = Query()
 
-    if _database.search(Preference.nick == nick):
-        _database.update({ 'model': models[modelID], }, Preference.nick == nick)
+    if _database.search(query.nick == nick):
+        _database.update({ 'model': models[modelID], }, query.nick == nick)
     else:
         _database.insert({ 'nick': nick, 'model': models[modelID], })
 
