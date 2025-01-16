@@ -336,13 +336,16 @@
 </span><span id="L-245"><a href="#L-245"><span class="linenos">245</span></a>    <span class="n">Preference</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
 </span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a>    <span class="n">preference</span> <span class="o">=</span> <span class="n">_database</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Preference</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">nick</span><span class="p">)</span>
 </span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a>    <span class="k">if</span> <span class="n">preference</span><span class="p">:</span>
-</span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">preference</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
-</span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">PerplexityClient</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="p">,</span> <span class="n">endpoint</span> <span class="o">=</span> <span class="n">PERPLEXITY_API_URL</span><span class="p">)</span>
-</span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a>        <span class="n">client</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a>        <span class="n">_clientCache</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span> <span class="o">=</span> <span class="n">client</span>
-</span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a>        <span class="k">return</span> <span class="n">model</span>
-</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a>        <span class="k">return</span> <span class="n">DEFAULT_LLM</span>
+</span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">PerplexityClient</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="p">,</span> <span class="n">endpoint</span> <span class="o">=</span> <span class="n">PERPLEXITY_API_URL</span><span class="p">)</span>
+</span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">preference</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
+</span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a>        <span class="c1"># TODO: Implement unit test for this case.</span>
+</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a>        <span class="k">if</span> <span class="n">model</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+</span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a>            <span class="n">model</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a>        <span class="n">client</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+</span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a>        <span class="n">_clientCache</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span> <span class="o">=</span> <span class="n">client</span>
+</span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a>        <span class="k">return</span> <span class="n">model</span>
+</span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="L-257"><a href="#L-257"><span class="linenos">257</span></a>        <span class="k">return</span> <span class="n">DEFAULT_LLM</span>
 </span></pre></div>
 
 
@@ -362,7 +365,7 @@
                 <section id="DEFAULT_LLM">
                     <div class="attr variable">
             <span class="name">DEFAULT_LLM</span>        =
-<span class="default_value">&#39;llama-3.1-70b-instruct&#39;</span>
+<span class="default_value">&#39;llama-3.1-sonar-small-128k-online&#39;</span>
 
         
     </div>
@@ -790,13 +793,16 @@ enforces that the  exists and is registered in the server.</p>
 </span><span id="getModelForUser-246"><a href="#getModelForUser-246"><span class="linenos">246</span></a>    <span class="n">Preference</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
 </span><span id="getModelForUser-247"><a href="#getModelForUser-247"><span class="linenos">247</span></a>    <span class="n">preference</span> <span class="o">=</span> <span class="n">_database</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Preference</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">nick</span><span class="p">)</span>
 </span><span id="getModelForUser-248"><a href="#getModelForUser-248"><span class="linenos">248</span></a>    <span class="k">if</span> <span class="n">preference</span><span class="p">:</span>
-</span><span id="getModelForUser-249"><a href="#getModelForUser-249"><span class="linenos">249</span></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">preference</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
-</span><span id="getModelForUser-250"><a href="#getModelForUser-250"><span class="linenos">250</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">PerplexityClient</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="p">,</span> <span class="n">endpoint</span> <span class="o">=</span> <span class="n">PERPLEXITY_API_URL</span><span class="p">)</span>
-</span><span id="getModelForUser-251"><a href="#getModelForUser-251"><span class="linenos">251</span></a>        <span class="n">client</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-</span><span id="getModelForUser-252"><a href="#getModelForUser-252"><span class="linenos">252</span></a>        <span class="n">_clientCache</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span> <span class="o">=</span> <span class="n">client</span>
-</span><span id="getModelForUser-253"><a href="#getModelForUser-253"><span class="linenos">253</span></a>        <span class="k">return</span> <span class="n">model</span>
-</span><span id="getModelForUser-254"><a href="#getModelForUser-254"><span class="linenos">254</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="getModelForUser-255"><a href="#getModelForUser-255"><span class="linenos">255</span></a>        <span class="k">return</span> <span class="n">DEFAULT_LLM</span>
+</span><span id="getModelForUser-249"><a href="#getModelForUser-249"><span class="linenos">249</span></a>        <span class="n">client</span> <span class="o">=</span> <span class="n">PerplexityClient</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="p">,</span> <span class="n">endpoint</span> <span class="o">=</span> <span class="n">PERPLEXITY_API_URL</span><span class="p">)</span>
+</span><span id="getModelForUser-250"><a href="#getModelForUser-250"><span class="linenos">250</span></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">preference</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
+</span><span id="getModelForUser-251"><a href="#getModelForUser-251"><span class="linenos">251</span></a>        <span class="c1"># TODO: Implement unit test for this case.</span>
+</span><span id="getModelForUser-252"><a href="#getModelForUser-252"><span class="linenos">252</span></a>        <span class="k">if</span> <span class="n">model</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+</span><span id="getModelForUser-253"><a href="#getModelForUser-253"><span class="linenos">253</span></a>            <span class="n">model</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="getModelForUser-254"><a href="#getModelForUser-254"><span class="linenos">254</span></a>        <span class="n">client</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+</span><span id="getModelForUser-255"><a href="#getModelForUser-255"><span class="linenos">255</span></a>        <span class="n">_clientCache</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span> <span class="o">=</span> <span class="n">client</span>
+</span><span id="getModelForUser-256"><a href="#getModelForUser-256"><span class="linenos">256</span></a>        <span class="k">return</span> <span class="n">model</span>
+</span><span id="getModelForUser-257"><a href="#getModelForUser-257"><span class="linenos">257</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="getModelForUser-258"><a href="#getModelForUser-258"><span class="linenos">258</span></a>        <span class="k">return</span> <span class="n">DEFAULT_LLM</span>
 </span></pre></div>
 
 

@@ -245,8 +245,11 @@ def getModelForUser(nick: str, fileNameDB: str, key = None) -> str:
     Preference = Query()
     preference = _database.search(Preference.nick == nick)
     if preference:
-        model = preference[0]['model']
         client = PerplexityClient(key = key, endpoint = PERPLEXITY_API_URL)
+        model = preference[0]['model']
+        # TODO: Implement unit test for this case.
+        if model not in client.models.keys():
+            model = tuple(client.models.keys())[0]
         client.model = model
         _clientCache[nick] = client
         return model
