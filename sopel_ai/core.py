@@ -3,6 +3,7 @@
 from perplexipy import PERPLEXITY_API_URL
 from perplexipy import PERPLEXITY_DEFAULT_MODEL
 from perplexipy import PerplexityClient
+from perplexipy import __VERSION__ as __P_VERSION__
 from sopel_ai import __VERSION__
 from sopel_ai.errors import SopelAIError
 from tinydb import Query
@@ -14,7 +15,9 @@ from tinydb import TinyDB
 # +++ constants +++
 
 DEFAULT_API_KEY = 'pplx-3a45enterthekeyhere'
-DEFAULT_LLM = PERPLEXITY_DEFAULT_MODEL
+# TODO: Fix this:
+# DEFAULT_LLM = PERPLEXITY_DEFAULT_MODEL.replace('reasoning-', '')
+DEFAULT_LLM = 'sonar-pro'
 DEFAULT_LLM_PROVIDER = 'PerplexityAI'
 DEFAULT_LLM_SERVICE = PERPLEXITY_API_URL
 DEFAULT_LOG_LEVEL = 'info'
@@ -63,8 +66,10 @@ def _checkClientInstance(key: str) -> None:
     global _client
 
     if not _client:
+        # TODO:  fix the default in PerplexiPy at some point.
+        model = PERPLEXITY_DEFAULT_MODEL.replace('-reasoning', '')
         _client = PerplexityClient(key = key, endpoint = PERPLEXITY_API_URL)
-        _client.model = PERPLEXITY_DEFAULT_MODEL
+        _client.model = model
 
 
 def runQuery(query: str, nick: str = None, fileNameDB: str = None, responseLength: int = MAX_RESPONSE_LENGTH, key: str = None) -> str:
@@ -160,7 +165,7 @@ def versionInfo(key: str = None) -> str:
         raise SopelAIError('key argument cannot be empty - set the LLM service API key')
 
     _checkClientInstance(key)
-    return 'sopel_ai v%s using %s' % (__VERSION__, '.'.join([_client.__class__.__module__, _client.__class__.__name__]))
+    return 'sopel_ai v%s using %s version %s' % (__VERSION__, '.'.join([_client.__class__.__module__, _client.__class__.__name__]), __P_VERSION__)
 
 
 def setModelForUser(modelID: int, nick: str, fileNameDB: str, key = None) -> str:
