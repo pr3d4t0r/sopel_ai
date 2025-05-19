@@ -111,11 +111,11 @@ def test_runQueryResponseLength(testDatabasePath, testAPIKey):
     assert p < q
 
 
-# # For the testing in the debugger
+# For the testing in the debugger
 # databasePath = mkstemp(suffix = '.json', text = True)[1]
 # configfilename = os.path.join(os.environ['HOME'], '.sopel/default.cfg')
 # key = Config(configfilename).sopel_ai.llm_key
-# # test_runQuery(databasePath, key)
+# test_runQuery(databasePath, key)
 # test_setModelForUser(databasePath, key)
 # test_getModelForUser(databasePath, key)
 # # # test_runQueryResponseLength(databasePath)
